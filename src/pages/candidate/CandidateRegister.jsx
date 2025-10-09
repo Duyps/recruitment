@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDocs, query, where, collection, serverTimestamp } from "firebase/firestore";
 
 export default function CandidateRegister() {
   const [email, setEmail] = useState("");
@@ -15,11 +15,23 @@ export default function CandidateRegister() {
     setLoading(true);
 
     try {
-      // Tạo tài khoản Firebase Auth
+      // Kiểm tra xem email đã được dùng cho company chưa
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        const existingUser = snapshot.docs[0].data();
+        if (existingUser.role === "company") {
+          alert("This email is already used for a Company account. Please use another email.");
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Tạo tài khoản mới
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Ghi thông tin chung vào "users"
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         email: user.email,
@@ -27,14 +39,13 @@ export default function CandidateRegister() {
         createdAt: serverTimestamp(),
       });
 
-      // Ghi dữ liệu riêng cho "candidates"
       await setDoc(doc(db, "candidates", user.uid), {
         email: user.email,
         setupCompleted: false,
         createdAt: serverTimestamp(),
       });
 
-      alert("Account created successfully!");
+      alert("Candidate account created successfully!");
       navigate("/candidate/setup");
     } catch (error) {
       console.error("Registration failed:", error);
@@ -45,7 +56,7 @@ export default function CandidateRegister() {
   };
 
   return (
-    <div className="register-page" style={styles.container}>
+    <div style={styles.container}>
       <h2>Candidate Registration 🧑‍💻</h2>
       <form onSubmit={handleRegister} style={styles.form}>
         <input
@@ -81,23 +92,7 @@ const styles = {
     justifyContent: "center",
     background: "#f9f9f9",
   },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-    width: "300px",
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-  },
-  button: {
-    background: "#007bff",
-    color: "#fff",
-    padding: "10px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    border: "none",
-  },
+  form: { display: "flex", flexDirection: "column", gap: "12px", width: "300px" },
+  input: { padding: "10px", borderRadius: "8px", border: "1px solid #ccc" },
+  button: { background: "#007bff", color: "#fff", padding: "10px", borderRadius: "8px", cursor: "pointer", border: "none" },
 };

@@ -15,43 +15,48 @@ export default function GetStarted() {
     setLoading(true);
 
     try {
-      // 🔹 1. Đăng nhập bằng Firebase Auth
+      // 1️⃣ Đăng nhập bằng Firebase Auth
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 🔹 2. Lấy thông tin user từ Firestore
+      // 2️⃣ Lấy thông tin user trong collection "users"
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
 
       if (!userDoc.exists()) {
-        alert("User data not found in Firestore!");
+        alert("⚠️ User data not found in Firestore!");
         return;
       }
 
-      const userType = userDoc.data().userType;
-      const setupCompleted = userDoc.data().setupCompleted || false;
+      const role = userDoc.data().role; // ✅ đúng field
+      let setupCompleted = false;
 
-      // 🔹 3. Điều hướng đúng trang
-      if (userType === "candidate") {
-        if (!setupCompleted) {
-          navigate("/candidate/setup");
-        } else {
-          navigate("/candidate/home");
-        }
-      } else if (userType === "company") {
-        if (!setupCompleted) {
-          navigate("/company/setup");
-        } else {
-          navigate("/company/home");
-        }
-      } else {
-        alert("Unknown user type!");
+      // 3️⃣ Kiểm tra setupCompleted trong collection riêng
+      if (role === "candidate") {
+        const candidateRef = doc(db, "candidates", user.uid);
+        const candidateSnap = await getDoc(candidateRef);
+        if (candidateSnap.exists()) setupCompleted = candidateSnap.data().setupCompleted || false;
+
+        if (!setupCompleted) navigate("/candidate/setup");
+        else navigate("/candidate/home");
+      } 
+      else if (role === "company") {
+        const companyRef = doc(db, "companies", user.uid);
+        const companySnap = await getDoc(companyRef);
+        if (companySnap.exists()) setupCompleted = companySnap.data().setupCompleted || false;
+
+        if (!setupCompleted) navigate("/company/setup");
+        else navigate("/company/home");
+      } 
+      else {
+        alert("❌ Unknown user type!");
       }
-
-    } catch (err) {
+    } 
+    catch (err) {
       console.error("Login error:", err);
-      alert("Invalid credentials or no permission!");
-    } finally {
+      alert("❌ " + err.message);
+    } 
+    finally {
       setLoading(false);
     }
   };

@@ -10,7 +10,14 @@ export default function CompanyLogin() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
+
     try {
+      if (data.role !== "company") {
+        alert("This account is registered as a Candidate. Please use the Candidate login.");
+        await signOut(auth);
+        return;
+      }
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/company/plan");
     } catch (error) {
