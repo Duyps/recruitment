@@ -1,0 +1,93 @@
+.form-wrapper {
+  background: #fff;
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  width: 380px;
+  text-align: center;
+  margin: 40px auto;
+  transition: all 0.3s ease;
+}
+
+.form-wrapper h3 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px 14px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border 0.2s ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #2d8eff;
+  box-shadow: 0 0 0 3px rgba(45, 142, 255, 0.2);
+}
+
+.progress-bar {
+  background: #e8e8e8;
+  height: 6px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2d8eff, #00d2ff);
+  transition: width 0.3s ease;
+}
+
+.btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: #2d8eff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #1a6ee2;
+}
+
+.btn-secondary {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.btn-skip {
+  background: #f9f9f9;
+  color: #666;
+  border: 1px solid #ccc;
+}
+
+.step-text {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #777;
+}

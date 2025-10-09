@@ -1,7 +1,7 @@
 import { auth, db } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-
+import './company.css';
 export default function CompanyPlan() {
   const navigate = useNavigate();
 

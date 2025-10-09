@@ -2,7 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, getDocs, query, where, collection, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  where,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
+import './company.css';
 
 export default function CompanyRegister() {
   const [email, setEmail] = useState("");
@@ -15,21 +24,25 @@ export default function CompanyRegister() {
     setLoading(true);
 
     try {
-      // Kiểm tra xem email đã được dùng cho candidate chưa
       const q = query(collection(db, "users"), where("email", "==", email));
       const snapshot = await getDocs(q);
 
       if (!snapshot.empty) {
         const existingUser = snapshot.docs[0].data();
         if (existingUser.role === "candidate") {
-          alert("This email is already used for a Candidate account. Please use another email.");
+          alert(
+            "This email is already used for a Candidate account. Please use another email."
+          );
           setLoading(false);
           return;
         }
       }
 
-      // Tạo tài khoản mới
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       await setDoc(doc(db, "users", user.uid), {
@@ -56,16 +69,15 @@ export default function CompanyRegister() {
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Company Registration 🏢</h2>
-      <form onSubmit={handleRegister} style={styles.form}>
+    <div className="auth-page">
+      <h2>Company Registration</h2>
+      <form onSubmit={handleRegister}>
         <input
           type="email"
           placeholder="Company Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={styles.input}
         />
         <input
           type="password"
@@ -73,26 +85,15 @@ export default function CompanyRegister() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={styles.input}
         />
-        <button type="submit" disabled={loading} style={styles.button}>
+        <button type="submit" disabled={loading}>
           {loading ? "Creating..." : "Register"}
         </button>
+        <p>
+          Already have an account?{" "}
+          <span onClick={() => navigate("/company/login")}>Login</span>
+        </p>
       </form>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    minHeight: "100vh",
-    justifyContent: "center",
-    background: "#f9f9f9",
-  },
-  form: { display: "flex", flexDirection: "column", gap: "12px", width: "300px" },
-  input: { padding: "10px", borderRadius: "8px", border: "1px solid #ccc" },
-  button: { background: "#28a745", color: "#fff", padding: "10px", borderRadius: "8px", cursor: "pointer", border: "none" },
-};

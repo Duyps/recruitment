@@ -1,68 +1,56 @@
-// src/pages/HomePage.jsx
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import HeaderLanding from "./landingPage/HeaderLanding";
+import "./home.css";
 
 export default function HomePage() {
+  const [selectedRole, setSelectedRole] = useState(null);
   const navigate = useNavigate();
 
+  const handleConfirm = () => {
+    if (selectedRole === "candidate") {
+      navigate("/candidate/login");
+    } else if (selectedRole === "company") {
+      navigate("/company/login");
+    }
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-        background: "#f0f2f5",
-        textAlign: "center",
-        padding: "20px",
-      }}
-    >
-      <h1 style={{ fontSize: "2.5rem", marginBottom: "10px" }}>
-        Welcome to ITWorks 💼
-      </h1>
-      <p style={{ maxWidth: "600px", color: "#555", marginBottom: "40px" }}>
-        A modern recruitment platform connecting talented candidates and
-        innovative companies.
-      </p>
+    <div className="homepage">
+      <HeaderLanding />
 
-      {/* Các nút điều hướng */}
-      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+      <h1>Join as a Company or Candidate</h1>
+
+      <div className="button-group">
         <button
-          style={btnStyle}
-          onClick={() => navigate("/candidate/login")}
+          className={`role-btn ${selectedRole === "candidate" ? "selected" : ""}`}
+          onClick={() => setSelectedRole("candidate")}
         >
-          I'm a Candidate
+          I'm a candidate, looking for work.
         </button>
 
         <button
-          style={btnStyle}
-          onClick={() => navigate("/company/login")}
+          className={`role-btn ${selectedRole === "company" ? "selected" : ""}`}
+          onClick={() => setSelectedRole("company")}
         >
-          I'm a Company
-        </button>
-
-        {/* 🔹 Nút Get Started mới */}
-        <button style={btnPrimary} onClick={() => navigate("/get-started")}>
-          Get Started →
+          I'm an employer, hiring for a job.
         </button>
       </div>
+
+      {selectedRole && (
+        <div className="confirm-section">
+          <button className="confirm-btn" onClick={handleConfirm}>
+            {selectedRole === "company" ? "Join as a Company" : "Apply as a Candidate"}
+          </button>
+        </div>
+      )}
+
+      <p className="login-text">
+        Already have an account?{" "}
+        <span className="login-link" onClick={() => navigate("/get-started")}>
+          Log In
+        </span>
+      </p>
     </div>
   );
 }
-
-const btnStyle = {
-  padding: "12px 24px",
-  border: "1px solid #333",
-  borderRadius: "8px",
-  background: "white",
-  cursor: "pointer",
-  fontWeight: "600",
-  transition: "0.2s",
-};
-
-const btnPrimary = {
-  ...btnStyle,
-  background: "#007bff",
-  color: "white",
-  border: "none",
-};

@@ -1,0 +1,155 @@
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9ff, #e3f2fd);
+  color: #000000;
+  font-family: 'Poppins', sans-serif;
+}
+
+.auth-page h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.auth-page form {
+  background: #fff;
+  color: #333;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-page input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.auth-page input:focus {
+  border-color: #2557A7;
+  box-shadow: 0 0 6px rgba(37, 87, 167, 0.5);
+}
+
+.auth-page button {
+  background-color: #2557A7;
+  color: #fff;
+  border: none;
+  padding: 14px 0;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.auth-page button:hover {
+  background-color: #1e4b94;
+  transform: scale(1.02);
+}
+
+.auth-page p {
+  text-align: center;
+  margin-top: 10px;
+  color: #555;
+}
+
+.auth-page span {
+  color: #2557A7;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.auth-page span:hover {
+  color: #1b3f7a;
+  text-decoration: underline;
+}
+
+/* ========== 💼 Company Plan Page ========== */
+.plan-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 20px;
+  width: 100%;
+  
+}
+
+.plan-card {
+  background: #fff;
+  color: #333;
+  border-radius: 16px;
+  padding: 30px 25px;
+  width: 280px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.plan-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.plan-card h3 {
+  font-size: 1.6rem;
+  color: #2557A7;
+  margin-bottom: 10px;
+}
+
+.plan-card p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.plan-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.plan-card ul li {
+  margin-bottom: 8px;
+}
+
+/* ---------- Highlight Premium Plans ---------- */
+.plan-card:nth-child(2) {
+  border: 2px solid #2557A7;
+}
+
+.plan-card:nth-child(3) {
+  border: 2px solid gold;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .plan-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .auth-page form {
+    padding: 30px 20px;
+  }
+
+  .auth-page h2,
+  .plan-page h2 {
+    font-size: 1.7rem;
+  }
+}

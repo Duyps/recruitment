@@ -2,7 +2,7 @@ import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-
+import './company.css'
 export default function CompanyLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ export default function CompanyLogin() {
 
   return (
     <div className="auth-page">
-      <h2>Company Login 🏢</h2>
+      <h2>Company Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="email"

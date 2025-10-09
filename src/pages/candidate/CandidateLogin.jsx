@@ -63,7 +63,7 @@ export default function CandidateLogin() {
           textAlign: "center",
         }}
       >
-        <h2 style={{ marginBottom: "1rem" }}>🎯 Candidate Login</h2>
+        <h2 style={{ marginBottom: "1rem" }}>Candidate Login</h2>
 
         <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           <input
@@ -93,7 +93,7 @@ export default function CandidateLogin() {
           <button
             type="submit"
             style={{
-              backgroundColor: "#007bff",
+              backgroundColor: "#2557A7",
               color: "white",
               padding: "10px",
               borderRadius: "8px",
@@ -111,7 +111,7 @@ export default function CandidateLogin() {
             Don’t have an account?{" "}
             <span
               onClick={() => navigate("/candidate/register")}
-              style={{ color: "#007bff", cursor: "pointer", fontWeight: "bold" }}
+              style={{ color:"#2557A7", cursor: "pointer", fontWeight: "bold" }}
             >
               Register
             </span>

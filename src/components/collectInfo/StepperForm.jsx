@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import './form.css';
 export default function StepperForm({ formData, onChange, onFinish }) {
   const [step, setStep] = useState(1);
 
