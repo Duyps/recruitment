@@ -9,13 +9,19 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { FiEdit, FiTrash2, FiEye, FiToggleLeft, FiToggleRight } from "react-icons/fi";
-import './managejob.css';
+import {
+  FiEdit,
+  FiTrash2,
+  FiToggleLeft,
+  FiToggleRight,
+} from "react-icons/fi";
+import "./managejob.css";
 
 export default function ManageJob() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const [editingJob, setEditingJob] = useState(null); // job đang được chỉnh sửa
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -38,7 +44,7 @@ export default function ManageJob() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm("⚠️ Are you sure you want to delete this job?")) {
+    if (window.confirm("⚠️ Bạn có chắc chắn muốn xóa job này?")) {
       await deleteDoc(doc(db, "jobs", id));
       setJobs(jobs.filter((job) => job.id !== id));
     }
@@ -53,7 +59,9 @@ export default function ManageJob() {
   };
 
   const filteredJobs =
-    filter === "all" ? jobs : jobs.filter((job) => job.isActive === (filter === "active"));
+    filter === "all"
+      ? jobs
+      : jobs.filter((job) => job.isActive === (filter === "active"));
 
   if (loading) return <p className="manage-loading">Loading jobs...</p>;
 
@@ -107,10 +115,7 @@ export default function ManageJob() {
               </div>
 
               <div className="job-actions">
-                <button
-                  className="btn-edit"
-                  onClick={() => alert("🛠 Edit feature coming soon")}
-                >
+                <button className="btn-edit" onClick={() => setEditingJob(job)}>
                   <FiEdit /> Edit
                 </button>
                 <button
@@ -128,6 +133,104 @@ export default function ManageJob() {
           ))}
         </div>
       )}
+
+      {editingJob && (
+        <EditJobModal
+          job={editingJob}
+          onClose={() => setEditingJob(null)}
+          onSave={(updated) =>
+            setJobs(jobs.map((j) => (j.id === updated.id ? updated : j)))
+          }
+        />
+      )}
+    </div>
+  );
+}
+
+/* --------------------------------
+   🧱 Component: EditJobModal
+---------------------------------- */
+function EditJobModal({ job, onClose, onSave }) {
+  const [form, setForm] = useState({
+    title: job.title || "",
+    description: job.description || "",
+    salaryRange: job.salaryRange || "",
+    location: job.location || "",
+    experience: job.experience || "",
+  });
+  const [saving, setSaving] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const ref = doc(db, "jobs", job.id);
+      await updateDoc(ref, form);
+      onSave({ ...job, ...form });
+      onClose();
+    } catch (err) {
+      alert("❌ Lỗi khi cập nhật job: " + err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="modal-backdrop">
+      <div className="modal-content">
+        <h3>Edit Job</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="title"
+            value={form.title}
+            onChange={handleChange}
+            placeholder="Job title"
+            required
+          />
+          <textarea
+            name="description"
+            rows="4"
+            value={form.description}
+            onChange={handleChange}
+            placeholder="Description"
+          ></textarea>
+          <input
+            type="text"
+            name="salaryRange"
+            value={form.salaryRange}
+            onChange={handleChange}
+            placeholder="Salary range"
+          />
+          <input
+            type="text"
+            name="location"
+            value={form.location}
+            onChange={handleChange}
+            placeholder="Location"
+          />
+          <input
+            type="text"
+            name="experience"
+            value={form.experience}
+            onChange={handleChange}
+            placeholder="Experience"
+          />
+
+          <div className="modal-actions">
+            <button type="button" onClick={onClose}>
+              Cancel
+            </button>
+            <button type="submit" disabled={saving}>
+              {saving ? "Saving..." : "Save"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

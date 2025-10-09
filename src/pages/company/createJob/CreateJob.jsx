@@ -47,6 +47,7 @@ export default function CreateJob() {
       const jobData = {
         ...formData,
         companyId: user.uid,
+        isActive: status === "published", 
         status: status, // 'draft' or 'published'
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -71,6 +72,7 @@ export default function CreateJob() {
         vacancies: "",
         deadline: "",
         contactEmail: "",
+        isActive: true, 
       });
     } catch (error) {
       console.error("❌ Error creating job:", error);
