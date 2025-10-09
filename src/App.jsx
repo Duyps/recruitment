@@ -10,11 +10,13 @@ import CompanyRegister from "./pages/company/CompanyRegister";
 import CompanySetup from "./pages/company/CompanySetup";
 import CompanyPlan from "./pages/company/CompanyPlan";
 import GetStarted from "./pages/GetStarted";
+import LandingPage from "./pages/landingPage/Landing";
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/homepage" element={<HomePage/>} />
         {/* Candidate */}
         <Route path="/candidate/login" element={<CandidateLogin />} />
         <Route path="/candidate/register" element={<CandidateRegister />} />
