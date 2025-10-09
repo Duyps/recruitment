@@ -11,6 +11,8 @@ import CompanySetup from "./pages/company/CompanySetup";
 import CompanyPlan from "./pages/company/CompanyPlan";
 import GetStarted from "./pages/GetStarted";
 import LandingPage from "./pages/landingPage/Landing";
+import JobDetail from "./pages/company/jobDetail/JobDetail";
+import ManageJob from "./pages/company/manageJob/ManageJob";
 export default function App() {
   return (
     <Router>
@@ -28,10 +30,12 @@ export default function App() {
         <Route path="/company/home" element={<CompanyHome />} />
         <Route path="/company/setup" element={<CompanySetup />} />
         <Route path="/company/plan" element={<CompanyPlan />} />
+        <Route path="/company/managejob" element={<ManageJob />} />
+        
 
         {/* Default */}
         <Route path="/get-started" element={<GetStarted />} />
-
+        <Route path="/company/home/job/:jobId" element={<JobDetail />} />
         {/*<Route path="*" element={<NotFound />} />*/}
       </Routes>
     </Router>

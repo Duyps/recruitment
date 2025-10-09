@@ -1,0 +1,85 @@
+.jobdetail-container {
+  padding: 24px;
+  color: #fff;
+  background-color: #121212;
+  min-height: 100vh;
+}
+
+.back-btn {
+  background: none;
+  color: #ccc;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.jobdetail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-actions button {
+  margin-left: 8px;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background: #3b82f6;
+  color: white;
+}
+.btn-delete {
+  background: #ef4444;
+  color: white;
+}
+.btn-toggle {
+  background: #444;
+  color: white;
+}
+
+.jobdetail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.jobdetail-info, .jobdetail-applicants {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.applicants-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.applicants-table th, .applicants-table td {
+  padding: 8px;
+  border-bottom: 1px solid #333;
+}
+
+.btn-accept, .btn-reject {
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.btn-accept { background: #16a34a; color: #fff; }
+.btn-reject { background: #dc2626; color: #fff; }
+
+.jobdetail-loading {
+  color: #ccc;
+  text-align: center;
+  margin-top: 50px;
+}

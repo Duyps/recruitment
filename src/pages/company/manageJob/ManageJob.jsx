@@ -15,6 +15,7 @@ import {
   FiToggleLeft,
   FiToggleRight,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import "./managejob.css";
 
 export default function ManageJob() {
@@ -22,7 +23,7 @@ export default function ManageJob() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [editingJob, setEditingJob] = useState(null); // job đang được chỉnh sửa
-
+    const navigate = useNavigate();
   useEffect(() => {
     const fetchJobs = async () => {
       const user = auth.currentUser;
@@ -58,6 +59,10 @@ export default function ManageJob() {
     );
   };
 
+  const handleViewDetail = (id) => {
+    navigate(`/company/home/job/${id}`); // trang chi tiết job
+  };
+
   const filteredJobs =
     filter === "all"
       ? jobs
@@ -86,8 +91,8 @@ export default function ManageJob() {
       ) : (
         <div className="manage-grid">
           {filteredJobs.map((job) => (
-            <div key={job.id} className="job-card">
-              <div className="job-header">
+            <div key={job.id} className="job-card" onClick={() => handleViewDetail(job.id)}>
+              <div className="job-header" >
                 <h3 className="job-title">{job.title}</h3>
                 <span className={`job-status ${job.isActive ? "active" : "inactive"}`}>
                   {job.isActive ? "Active" : "Closed"}

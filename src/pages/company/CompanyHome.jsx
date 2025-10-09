@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { FiPlus, FiBriefcase, FiUser } from "react-icons/fi";
+import { FiPlus, FiBriefcase, FiUser, FiLogOut } from "react-icons/fi";
 import "./company.css";
 import CompanyProfile from "./manageProfile/CompanyProfile";
 import CreateJob from "./createJob/CreateJob";
@@ -70,6 +70,15 @@ export default function CompanyHome() {
             className={activeTab === "profile" ? "active" : ""}
           >
             <FiUser /> Profile
+          </button>
+          <button
+            onClick={async () => {
+              await auth.signOut();
+              navigate("/");
+            }}
+            className="logout-btn"
+          >
+            <FiLogOut /> Logout
           </button>
         </nav>
       </aside>
