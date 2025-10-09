@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { FiPlus, FiBriefcase, FiUser } from "react-icons/fi";
 import "./company.css";
 import CompanyProfile from "./manageProfile/CompanyProfile";
+import CreateJob from "./createJob/CreateJob";
+import ManageJob from "./manageJob/ManageJob";
 
 export default function CompanyHome() {
   const [company, setCompany] = useState(null);
@@ -86,17 +88,11 @@ export default function CompanyHome() {
         )}
 
         {activeTab === "create" && (
-          <div className="placeholder-section">
-            <h2>Create New Job</h2>
-            <p>This section allows you to post a new job listing.</p>
-          </div>
+          <CreateJob/>
         )}
 
         {activeTab === "jobs" && (
-          <div className="placeholder-section">
-            <h2>Manage Jobs</h2>
-            <p>View and manage all your posted jobs here.</p>
-          </div>
+          <ManageJob/>
         )}
       </main>
     </div>

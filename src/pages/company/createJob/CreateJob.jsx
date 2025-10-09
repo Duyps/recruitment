@@ -1,5 +1,7 @@
 import { useState } from "react";
-import './create.css';
+import { auth, db } from "../../../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import "./create.css";
 
 export default function CreateJob() {
   const [formData, setFormData] = useState({
@@ -19,40 +21,77 @@ export default function CreateJob() {
     vacancies: "",
     deadline: "",
     contactEmail: "",
-    status: "Draft",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("📤 Job data:", formData);
-    alert("✅ Job post created (sample). You can now connect to Firestore.");
+  const handleSubmit = async (status) => {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("❌ Please log in first.");
+      return;
+    }
+
+    // Kiểm tra dữ liệu bắt buộc
+    if (!formData.title || !formData.category || !formData.description) {
+      alert("⚠️ Please fill in all required fields: title, category, description.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const jobData = {
+        ...formData,
+        companyId: user.uid,
+        status: status, // 'draft' or 'published'
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+
+      await addDoc(collection(db, "jobs"), jobData);
+      alert(status === "published" ? "✅ Job published successfully!" : "💾 Saved as draft!");
+      setFormData({
+        title: "",
+        type: "Full-time",
+        workMode: "On-site",
+        location: "",
+        salaryFrom: "",
+        salaryTo: "",
+        category: "",
+        skills: "",
+        experience: "",
+        education: "",
+        description: "",
+        responsibilities: "",
+        benefits: "",
+        vacancies: "",
+        deadline: "",
+        contactEmail: "",
+      });
+    } catch (error) {
+      console.error("❌ Error creating job:", error);
+      alert("Error creating job post. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="company-dashboard">
-      {/* === Sidebar === */}
-      <aside className="sidebar">
-        <h2>Dashboard</h2>
-        <ul>
-          <li className="active">📝 Create New</li>
-          <li>📋 Jobs</li>
-          <li>🏢 Profile</li>
-        </ul>
-      </aside>
 
       {/* === Main Content === */}
       <main className="main-content">
         <h2>Create New Job</h2>
-        <form className="job-form" onSubmit={handleSubmit}>
+        <form className="job-form" onSubmit={(e) => e.preventDefault()}>
           {/* --- Basic Info --- */}
           <section className="form-section">
             <h3>Basic Information</h3>
             <div className="form-group">
-              <label>Job Title</label>
+              <label>Job Title *</label>
               <input
                 type="text"
                 name="title"
@@ -121,7 +160,7 @@ export default function CreateJob() {
           <section className="form-section">
             <h3>Category & Skills</h3>
             <div className="form-group">
-              <label>Category</label>
+              <label>Category *</label>
               <select name="category" value={formData.category} onChange={handleChange}>
                 <option value="">Select category</option>
                 <option>Frontend</option>
@@ -179,7 +218,7 @@ export default function CreateJob() {
 
           {/* --- Description --- */}
           <section className="form-section">
-            <h3>Job Details</h3>
+            <h3>Job Details *</h3>
             <div className="form-group">
               <label>Description</label>
               <textarea
@@ -245,11 +284,21 @@ export default function CreateJob() {
           </section>
 
           <div className="button-group">
-            <button type="submit" className="btn-primary">
-              Publish Job
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => handleSubmit("published")}
+              disabled={loading}
+            >
+              {loading ? "Publishing..." : "Publish Job"}
             </button>
-            <button type="button" className="btn-secondary">
-              Save as Draft
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => handleSubmit("draft")}
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Save as Draft"}
             </button>
           </div>
         </form>
