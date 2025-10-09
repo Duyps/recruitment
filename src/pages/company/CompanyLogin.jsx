@@ -1,29 +1,46 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import './company.css'
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
+import './company.css';
+
 export default function CompanyLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    
+  e.preventDefault();
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-    try {
-      if (data.role !== "company") {
-        alert("This account is registered as a Candidate. Please use the Candidate login.");
-        await signOut(auth);
-        return;
-      }
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/company/plan");
-    } catch (error) {
-      alert("Login failed: " + error.message);
+    // Lấy thông tin user trong Firestore
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+
+    if (!snap.exists()) {
+      alert("Account not found in user records.");
+      await signOut(auth);
+      return;
     }
-  };
+
+    const data = snap.data(); // ⚠️ dòng này rất quan trọng
+
+    if (data.role !== "company") {
+      alert("This account is registered as a Candidate. Please use the Candidate login.");
+      await signOut(auth);
+      return;
+    }
+
+    navigate("/company/home");
+  } catch (err) {
+    console.error("Login failed:", err);
+    alert("Login failed: " + err.message);
+  }
+};
+
 
   return (
     <div className="auth-page">
