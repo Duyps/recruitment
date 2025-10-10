@@ -1,54 +1,74 @@
-.search-bar{
-    margin-top: 70px;
-    justify-content: center;
-    position: relative;
-    form{
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        border-radius: 20px;
-        box-shadow: 0 10px 10px rgba(0,0,0,0.1);
-        width: 50%;
-        margin: auto;
-        input {
-            flex: 1;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 4px;
-            border: none;
-        }
-        button {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            background-color: var(--blue);
-            font-weight: 400;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        button:hover{
-            background-color: var(--blue-hover);
-        }
-    }
-    ul{
-        position: absolute;
-        top: 100;
-        left: 25%;
-        width: 50%;
-        background-color: white;
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 10px 10px rgba(0,0,0,0.1);
-        margin-top: 5px;
-        padding: 10px 20px;
-        list-style:  none;
-        z-index: 10;
-        li{
-            padding: 10px;
-            display: flex;
-            gap: 10px;
-        }
-    }
+.search-bar {
+  margin-top: 70px;
+  justify-content: center;
+  position: relative;
+}
 
+.search-bar form {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  margin: auto;
+  background-color: white;
+}
+
+.search-bar form svg {
+  margin-right: 10px;
+  color: gray;
+}
+
+.search-bar form input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+}
+
+.search-bar form button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--blue);
+  font-weight: 400;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-bar form button:hover {
+  background-color: var(--blue-hover);
+}
+
+.search-bar ul {
+  position: absolute;
+  top: 100%;
+  left: 25%;
+  width: 50%;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 5px;
+  padding: 10px 20px;
+  list-style: none;
+  z-index: 10;
+}
+
+.search-bar ul li {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-bar ul li:hover {
+  background-color: #f0f0f0;
 }
