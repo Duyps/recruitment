@@ -1,0 +1,26 @@
+.can-home-page{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    .banner{
+        margin: 30px 0;
+        background-color: #EEF1FE;
+        display: flex;
+        justify-content: center;
+        img{
+            width: 40%;
+        }
+    }
+    .text{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        h1{
+            margin: 0;
+        }
+        p{
+            margin: 0;
+        }
+    }
+}

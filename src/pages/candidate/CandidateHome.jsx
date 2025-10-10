@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+{/*import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -57,4 +57,54 @@ export default function CandidateHome() {
       )}
     </div>
   );
+}
+*/}
+import { useState } from "react";
+import CandidateHeader from "./common/header/CandidateHeader";
+import SearchBar from "../../components/searchBox/SearchBox";
+import CanHomePage from "./homepage/CanHomePage";
+import './candidate.css';
+
+
+export default function CandidatePage() {
+  const [activeTab, setActiveTab] = useState("home");
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "home":
+        return <HomeTab />;
+      case "companyReview":
+        return <CompanyReviewTab />;
+      case "savedJob":
+        return <SavedJobTab />;
+      case "account":
+        return <AccountTab />;
+      default:
+        return <HomeTab />;
+    }
+  };
+
+  return (
+    <div className="candidate-page">
+      <CandidateHeader />
+      <CanHomePage/>
+    </div>
+  );
+}
+
+// --- Các tab mẫu ---
+function HomeTab() {
+  return <div>🏠 Home content: job list, featured companies, etc.</div>;
+}
+
+function CompanyReviewTab() {
+  return <div>⭐ Company reviews content.</div>;
+}
+
+function SavedJobTab() {
+  return <div>💾 Saved jobs list.</div>;
+}
+
+function AccountTab() {
+  return <div>👤 Account management: profile, settings, logout.</div>;
 }

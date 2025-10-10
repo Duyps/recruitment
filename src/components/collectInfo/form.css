@@ -51,20 +51,18 @@ select:focus {
   justify-content: center;
   gap: 10px;
   margin-top: 25px;
+  button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
 }
 
-button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
-}
 
-button:hover {
-  transform: translateY(-2px);
-}
+
 
 .btn-primary {
   background: #2d8eff;
