@@ -2,6 +2,7 @@ import { useState } from "react";
 import { auth, db } from "../../../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { catalogList } from "../../../data/catalogList";
+import { locationList, workModeList, jobTypeList, educationList } from "../../../data/jobData";
 import "./create.css";
 
 export default function CreateJob() {
@@ -108,33 +109,41 @@ export default function CreateJob() {
               <div className="form-group">
                 <label>Job Type</label>
                 <select name="type" value={formData.type} onChange={handleChange}>
-                  <option>Full-time</option>
-                  <option>Part-time</option>
-                  <option>Internship</option>
-                  <option>Freelance</option>
-                  <option>Remote</option>
+                  {jobTypeList.map((type, i) => (
+                    <option key={i} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div className="form-group">
                 <label>Work Mode</label>
                 <select name="workMode" value={formData.workMode} onChange={handleChange}>
-                  <option>On-site</option>
-                  <option>Remote</option>
-                  <option>Hybrid</option>
+                  {workModeList.map((mode, i) => (
+                    <option key={i} value={mode}>
+                      {mode}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
             <div className="form-group">
               <label>Location</label>
-              <input
-                type="text"
+              <select
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                placeholder="e.g., Ho Chi Minh City"
-              />
+                required
+              >
+                <option value="">Select location</option>
+                {locationList.map((loc, i) => (
+                  <option key={i} value={loc}>
+                    {loc}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="form-row">
@@ -207,10 +216,11 @@ export default function CreateJob() {
                   value={formData.education}
                   onChange={handleChange}
                 >
-                  <option>Not required</option>
-                  <option>Bachelor</option>
-                  <option>Master</option>
-                  <option>PhD</option>
+                  {educationList.map((ed, i) => (
+                    <option key={i} value={ed}>
+                      {ed}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

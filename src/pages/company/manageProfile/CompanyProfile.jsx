@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function CompanyProfile({
   company,
@@ -8,15 +8,39 @@ export default function CompanyProfile({
   setEditing,
   handleSave,
 }) {
+  const [logoPreview, setLogoPreview] = useState(company.logoUrl || "");
+
+  const handleLogoChange = (e) => {
+    const url = e.target.value;
+    setLogoPreview(url);
+    setFormData({ ...formData, logoUrl: url });
+  };
+
   return (
-    <div>
-      {/* Header */}
+    <div className="company-profile">
+      {/* Header với avatar */}
       <div className="company-header">
-        <img
-          src={company.logoUrl || "https://via.placeholder.com/100"}
-          alt="Company Logo"
-        />
-        <div>
+        <div className="logo-wrapper">
+          <img
+            src={logoPreview || "https://via.placeholder.com/100"}
+            alt="Company Logo"
+            className="company-logo"
+          />
+        </div>
+
+        {editing && (
+          <div className="logo-input">
+            <label>Logo URL</label>
+            <input
+              type="text"
+              placeholder="Enter image URL"
+              value={formData.logoUrl || ""}
+              onChange={handleLogoChange}
+            />
+          </div>
+        )}
+
+        <div className="company-info">
           <h1>{company.name || "Unnamed Company"}</h1>
           <p>{company.address || "No address available"}</p>
         </div>
@@ -31,7 +55,9 @@ export default function CompanyProfile({
               <input
                 type="text"
                 value={formData.name || ""}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
               />
             </div>
             <div className="info-input">
@@ -39,7 +65,9 @@ export default function CompanyProfile({
               <input
                 type="text"
                 value={formData.industry || ""}
-                onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, industry: e.target.value })
+                }
               />
             </div>
             <div className="info-input">
@@ -47,7 +75,9 @@ export default function CompanyProfile({
               <input
                 type="text"
                 value={formData.companyType || ""}
-                onChange={(e) => setFormData({ ...formData, companyType: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, companyType: e.target.value })
+                }
               />
             </div>
             <div className="info-input">
@@ -55,7 +85,9 @@ export default function CompanyProfile({
               <input
                 type="text"
                 value={formData.size || ""}
-                onChange={(e) => setFormData({ ...formData, size: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, size: e.target.value })
+                }
               />
             </div>
             <div className="info-input">
@@ -63,7 +95,9 @@ export default function CompanyProfile({
               <input
                 type="text"
                 value={formData.website || ""}
-                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, website: e.target.value })
+                }
               />
             </div>
             <button onClick={handleSave} className="save-btn">
@@ -100,7 +134,9 @@ export default function CompanyProfile({
             <textarea
               rows="4"
               value={formData.description || ""}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
             />
           </div>
         ) : (
