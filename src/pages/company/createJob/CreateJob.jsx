@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { auth, db } from "../../../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { catalogList } from "../../../data/catalogList";
 import "./create.css";
 
 export default function CreateJob() {
@@ -165,16 +166,13 @@ export default function CreateJob() {
               <label>Category *</label>
               <select name="category" value={formData.category} onChange={handleChange}>
                 <option value="">Select category</option>
-                <option>Frontend</option>
-                <option>Backend</option>
-                <option>Mobile</option>
-                <option>AI / Data</option>
-                <option>DevOps</option>
-                <option>UI / UX</option>
-                <option>QA / Tester</option>
-                <option>Product Manager</option>
-                <option>Marketing</option>
+                {catalogList.map((c, i) => (
+                  <option key={i} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
+
             </div>
             <div className="form-group">
               <label>Skills (comma separated)</label>

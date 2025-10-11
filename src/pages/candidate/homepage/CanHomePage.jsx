@@ -24,7 +24,7 @@ export default function CanHomePage() {
       .map((doc) => ({ id: doc.id, ...doc.data() }))
       .filter(
         (job) =>
-          job.catalog?.toLowerCase().includes(queryText.toLowerCase()) ||
+          job.category?.toLowerCase().includes(queryText.toLowerCase()) ||
           job.title?.toLowerCase().includes(queryText.toLowerCase())
       );
 

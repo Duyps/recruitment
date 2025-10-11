@@ -1,52 +1,38 @@
 import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
-import './searchBox.css';
+import { catalogList } from "../../data/catalogList";
+import "./searchBox.css";
 
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Đây là danh sách gợi ý mẫu (catalog có thể lấy từ Firestore sau)
-  const catalog = [
-    "AI Engineer",
-    "Artificial Intelligence",
-    "Machine Learning",
-    "Deep Learning",
-    "Frontend Developer",
-    "Backend Developer",
-    "Fullstack Developer",
-    "Mobile Developer",
-    "Flutter Developer",
-    "ReactJS Developer",
-    "Data Analyst",
-    "Data Scientist",
-    "DevOps Engineer",
-    "UI/UX Designer",
-    "Product Manager",
-  ];
-
+  // Gợi ý từ catalogList khi người dùng nhập
   useEffect(() => {
     if (query.trim() === "") {
       setSuggestions([]);
       return;
     }
 
-    const filtered = catalog.filter((item) =>
+    const filtered = catalogList.filter((item) =>
       item.toLowerCase().includes(query.toLowerCase())
     );
-    setSuggestions(filtered.slice(0, 5)); // chỉ hiện tối đa 5 gợi ý
+    setSuggestions(filtered.slice(0, 5)); // Giới hạn 5 gợi ý
   }, [query]);
 
+  // 👉 Chỉ chọn gợi ý, không gọi onSearch
   const handleSelectSuggestion = (text) => {
     setQuery(text);
     setShowSuggestions(false);
-    if (onSearch) onSearch(text);
   };
 
+  // 👉 Bắt đầu tìm kiếm khi nhấn Enter hoặc nút "Find Job"
   const handleSearch = (e) => {
     e.preventDefault();
-    if (onSearch) onSearch(query);
+    if (query.trim() && onSearch) {
+      onSearch(query.trim());
+    }
     setShowSuggestions(false);
   };
 
@@ -63,18 +49,14 @@ export default function SearchBar({ onSearch }) {
             setShowSuggestions(true);
           }}
         />
-        <button>Find Job</button>
+        <button type="submit">Find Job</button>
       </form>
 
+      {/* Danh sách gợi ý */}
       {showSuggestions && suggestions.length > 0 && (
-        <ul
-        >
+        <ul className="suggestion-list">
           {suggestions.map((s, i) => (
-            <li
-              key={i}
-              onClick={() => handleSelectSuggestion(s)}
-              
-            >
+            <li key={i} onClick={() => handleSelectSuggestion(s)}>
               <FiSearch size={15} />
               {s}
             </li>
