@@ -4,6 +4,7 @@ import {db} from '../../../firebase';
 import SearchBar from "../../../components/searchBox/SearchBox";
 import bannerImg from  '../../../assets/can_home.png';
 import './canhome.css';
+import JobList from "../jobList/JobList";
 
 export default function CanHomePage() {
   const [jobs, setJobs] = useState([]);
@@ -47,33 +48,11 @@ export default function CanHomePage() {
           </div>
         </div>
       ) : (
-        <div style={{ marginTop: "40px", padding: "0 10%" }}>
+        <div>
           {jobs.length === 0 ? (
             <p>No jobs found for your search.</p>
           ) : (
-            jobs.map((job) => (
-              <div
-                key={job.id}
-                style={{
-                  border: "1px solid #ccc",
-                  borderRadius: "10px",
-                  padding: "20px",
-                  marginBottom: "20px",
-                }}
-              >
-                <h3>{job.title}</h3>
-                <p>{job.description}</p>
-                <p>
-                  <strong>Category:</strong> {job.catalog}
-                </p>
-                <p>
-                  <strong>Location:</strong> {job.location}
-                </p>
-                <p>
-                  <strong>Salary:</strong> {job.salaryFrom} - {job.salaryTo}
-                </p>
-              </div>
-            ))
+            <JobList jobs={jobs}/>
           )}
         </div>
       )}
