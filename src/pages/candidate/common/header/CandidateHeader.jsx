@@ -22,10 +22,10 @@ export default function CandidateHeader() {
 
       <nav className="header-nav">
         
-        <button onClick={() => navigate("/candidate/saved-jobs")}>
+        <button onClick={() => navigate("/candidate/home/saved-jobs")}>
           Saved Job
         </button>
-        <button onClick={() => navigate("/candidate/account")}>Account</button>
+        <button onClick={() => navigate("/candidate/home/account")}>Account</button>
       </nav>
     </header>
   );

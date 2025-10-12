@@ -13,6 +13,8 @@ import GetStarted from "./pages/GetStarted";
 import LandingPage from "./pages/landingPage/Landing";
 import JobDetail from "./pages/company/jobDetail/JobDetail";
 import ManageJob from "./pages/company/manageJob/ManageJob";
+import SavedJobsPage from "./pages/candidate/savedJob/SavedJobsPage";
+import CandidateLayout from "./pages/candidate/CandidateLayout";
 export default function App() {
   return (
     <Router>
@@ -20,10 +22,14 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/homepage" element={<HomePage/>} />
         {/* Candidate */}
+         <Route path="/candidate/home" element={<CandidateLayout />}>
+          <Route index element={<CandidateHome />} /> {/* /candidate/home */}
+          <Route path="saved-jobs" element={<SavedJobsPage />} /> {/* /candidate/home/saved-jobs */}
+        </Route>
         <Route path="/candidate/login" element={<CandidateLogin />} />
         <Route path="/candidate/register" element={<CandidateRegister />} />
         <Route path="/candidate/setup" element={<CandidateSetup />} />
-        <Route path="/candidate/home" element={<CandidateHome />} />
+       
         {/* Company */}
         <Route path="/company/login" element={<CompanyLogin />} />
         <Route path="/company/register" element={<CompanyRegister />} />

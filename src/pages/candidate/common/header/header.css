@@ -18,12 +18,21 @@
   }*/
   .header-left{
     display: flex;
+    justify-content: center;
+    align-items: center;
   }
   button{
     background-color: inherit;
     border: none;
     font-weight: 100;
     margin: 0 20px;
+    cursor: pointer;
+    color: black;
+    font-weight: 400;
+    padding: 25px 0;
+  }
+  button:hover{
+    border-bottom: 1px solid var(--blue);    
   }
 }
 

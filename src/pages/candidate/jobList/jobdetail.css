@@ -1,0 +1,114 @@
+.job-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.job-modal-content {
+    background-color: #fff;
+    width: 60%;
+    max-width: 700px;
+    height: 100%;
+    border-radius: 16px 0 0 16px;
+    padding: 30px;
+    overflow-y: auto;
+    transform: translateX(100%);
+    animation: slideIn 0.4s forwards ease;
+    position: relative;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+}
+
+.modal-header img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.modal-body {
+  margin-top: 20px;
+}
+
+.modal-body h3 {
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+.modal-body p {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.apply-btn,
+.save-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+}
+
+.apply-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+
+.save-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save-btn:hover {
+  background-color: #0056b3;
+}
+
+.save-btn.saved {
+  background-color: #00c851; /* xanh lá */
+}
