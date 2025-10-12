@@ -23,4 +23,57 @@
             margin: 0;
         }
     }
+    .jobs-container{
+        display: flex;
+        margin: 20px ;
+        align-items: flex-start;
+        height: calc(100vh-160px);
+        overflow: hidden;
+        gap: 20px;
+        position: relative;
+        .job-filter{
+            flex: 0 0 15%; /* chiếm 30% chiều ngang */
+            max-width: 320px;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto; /* chỉ cuộn riêng filter khi nội dung dài */
+            position: sticky;
+            top: 20px; /* giữ cố định khi cuộn JobList */
+            height: fit-content;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .joblist-wrapper {
+            flex: 1;
+            overflow-y: auto; /* cuộn độc lập */
+            height: 100%;
+            padding-right: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #aaa transparent;
+        }
+        .joblist-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+        .joblist-wrapper::-webkit-scrollbar-thumb {
+            background-color: #bbb;
+            border-radius: 3px;
+        }
+        .joblist-wrapper::-webkit-scrollbar-thumb:hover {
+            background-color: #999;
+        }
+
+    }
+}
+@media (max-width: 900px) {
+  .jobs-container {
+    flex-direction: column;
+    height: auto;
+  }
+  .jobs-container .job-filter {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+  }
+  .joblist-wrapper {
+    height: auto;
+  }
 }
