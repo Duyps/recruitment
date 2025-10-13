@@ -1,114 +1,281 @@
+/* ==================================== */
+/* 1. Modal Structure and Animation */
+/* ==================================== */
+
 .job-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.45);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  z-index: 1000;
-  transition: background-color 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Màu nền tối hơn, mờ nhẹ để tạo chiều sâu */
+    background-color: rgba(30, 30, 30, 0.6); 
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 1000;
+    /* Dùng transition cho opacity thay vì background-color để mượt hơn */
+    transition: opacity 0.3s ease;
 }
 
 .job-modal-content {
-    background-color: #fff;
-    width: 60%;
-    max-width: 700px;
+    background-color: #ffffff; /* Trắng tinh khiết */
+    width: 50%; /* Giảm chiều rộng cho cảm giác sang trọng hơn */
     height: 100%;
     border-radius: 16px 0 0 16px;
-    padding: 30px;
+    padding: 30px 40px;
     overflow-y: auto;
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.05); /* Shadow nhẹ */
     transform: translateX(100%);
-    animation: slideIn 0.4s forwards ease;
+    animation: slideIn 0.4s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Animation mượt mà hơn */
     position: relative;
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
 }
+
+/* ẨN THANH CUỘN DỌC CỦA MODAL (tối giản) */
+.job-modal-content::-webkit-scrollbar {
+    width: 5px;
+}
+.job-modal-content::-webkit-scrollbar-thumb {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+}
+.job-modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 
 .close-btn {
-  position: absolute;
-  top: 12px;
-  right: 18px;
-  font-size: 24px;
-  border: none;
-  background: none;
-  cursor: pointer;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 30px;
+    line-height: 1;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #333;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s;
+}
+.close-btn:hover {
+    opacity: 1;
+    transform: rotate(90deg);
 }
 
+/* ==================================== */
+/* 2. Header and Body Content */
+/* ==================================== */
+
 .modal-header {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 12px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0; /* Đường kẻ mỏng, nhạt */
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .modal-header img {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 12px; /* Góc bo nhẹ */
+    border: 1px solid #f9f9f9;
+}
+
+.modal-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.modal-header p {
+    margin: 4px 0 0 0;
+    font-size: 15px;
+    color: #555;
 }
 
 .modal-body {
-  margin-top: 20px;
+    margin-top: 20px;
+    padding-bottom: 80px; /* Tạo khoảng trống cho footer fixed */
 }
 
 .modal-body h3 {
-  margin-bottom: 6px;
-  font-size: 16px;
+    margin: 20px 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    border-left: 3px solid #007bff; /* Điểm nhấn hiện đại */
+    padding-left: 10px;
 }
 
 .modal-body p {
-  margin-bottom: 16px;
-  line-height: 1.6;
+    margin-bottom: 16px;
+    line-height: 1.6;
+    color: #444;
+    font-size: 15px;
 }
 
+.job-decs,
+.job-bnf {
+    white-space: pre-wrap;
+    line-height: 1.7;
+    padding: 8px 0;
+}
+
+/* ==================================== */
+/* 3. Footer and Buttons (Fixed) */
+/* ==================================== */
+
+/* ==================================== */
+/* 3. Footer and Buttons (Fixed) - Cập nhật tinh tế hơn */
+/* ==================================== */
+
 .modal-footer {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  border-top: 1px solid #eee;
-  padding-top: 12px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 45%; 
+    max-width: 800px;
+    background-color: #ffffff;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05); /* Shadow nhẹ hơn */
+    padding: 15px 40px;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    align-items: center;
+    border-radius: 0 0 0 16px;
+    z-index: 1001; /* Đảm bảo footer luôn ở trên cùng */
 }
 
 .apply-btn,
 .save-btn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
-  font-weight: 500;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    display: flex; /* Dùng flex để căn icon/text */
+    align-items: center;
+    gap: 8px;
 }
 
+/* --- NÚT APPLY NOW --- */
 .apply-btn {
-  background-color: #007bff;
-  color: white;
+    /* Màu xanh chính (Primary) */
+    background-color: #007bff;
+    color: white;
+    /* Hiệu ứng nổi bật, hiện đại */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); 
+}
+.apply-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Hiệu ứng nhấn */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
 }
 
-
+/* --- NÚT SAVE JOB (Trái tim) --- */
 .save-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+    /* Mặc định: Tối giản, chỉ có viền */
+    
+    color: #007bff; /* Màu chữ và icon là màu primary */
+    border: 1px solid #007bff;
 }
 
-.save-btn:hover {
-  background-color: #0056b3;
+.save-btn:hover:not(.saved) {
+    /* Màu nền rất nhạt khi hover */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
+/* --- TRẠNG THÁI ĐÃ LƯU (SAVED) --- */
 .save-btn.saved {
-  background-color: #00c851; /* xanh lá */
+    background-color: #28a745; /* Màu xanh lá cây sang trọng khi đã lưu */
+   
+    border-color: #28a745;
+    /* Loại bỏ shadow nhỏ để tạo sự khác biệt */
+    box-shadow: none; 
+}
+
+.save-btn.saved:hover {
+    background-color: #1e7e34;
+    transform: translateY(-1px);
+}
+/* ==================================== */
+/* 4. Other Jobs Carousel (Elegant Scroll) */
+/* ==================================== */
+
+.other-jobs-carousel {
+    display: flex;
+    overflow-x: scroll; /* Vẫn giữ cuộn ngang */
+    gap: 20px;
+    padding: 15px 5px; /* Thêm padding để tạo khoảng trống khi cuộn */
+    margin: 0 -5px; /* Dịch sang trái/phải để offset padding */
+    scroll-behavior: smooth;
+    
+    /* ẨN THANH CUỘN NGANG */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+/* Webkit (Chrome, Safari) */
+.other-jobs-carousel::-webkit-scrollbar {
+    display: none; 
+}
+
+
+.carousel-card {
+    display: flex;
+    align-items: center;
+    min-width: 280px; /* Tăng kích thước card */
+    flex-shrink: 0;
+    background: #ffffff;
+    border: 1px solid #eee; /* Đường viền mỏng */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Shadow nhẹ nhàng */
+    border-radius: 12px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.carousel-card:hover {
+    transform: translateY(-5px); /* Hiệu ứng "nhấc lên" */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-logo {
+    width: 50px; /* Tăng kích thước logo */
+    height: 50px;
+    border-radius: 8px; /* Dùng góc vuông bo thay vì bo tròn */
+    object-fit: contain;
+    margin-right: 15px;
+    border: 1px solid #f9f9f9;
+}
+
+.carousel-info {
+    flex-grow: 1;
+}
+
+.carousel-info h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #1a1a1a;
+    /* Đảm bảo text không bị tràn */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.carousel-info p {
+    font-size: 13px;
+    margin: 2px 0;
+    color: #666;
 }

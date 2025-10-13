@@ -117,3 +117,15 @@ textarea {
 .btn-secondary:hover {
   background: #5a6268;
 }
+.job-description,
+.job-benefits {
+  white-space: pre-wrap; /* giữ xuống dòng */
+  line-height: 1.5;
+}
+/* jobList.css */
+.joblist-description,
+.job-detail-description,
+.job-detail-benefits {
+  white-space: pre-wrap; /* Giữ xuống dòng */
+  line-height: 1.5;
+}
