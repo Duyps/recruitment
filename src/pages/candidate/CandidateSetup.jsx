@@ -12,7 +12,7 @@ export default function CandidateSetup() {
     gender: "",
     phone: "",
     address: "",
-    education: "",
+    education: [],
     major: "",
     graduationYear: "",
     experienceYears: "",
