@@ -1,321 +1,315 @@
-/* profile.css - Cleaned and Optimized Version */
+/* =================================== */
+/* File: profile.css                   */
+/* Styling cho trang Tài khoản Ứng viên */
+/* Dựa trên các biến từ index.css */
+/* =================================== */
 
-/* ---------------------------------------------------- */
-/* Cấu trúc chung và Bố cục chính */
-/* ---------------------------------------------------- */
 .candidate-profile {
-  max-width: 1200px;
-  margin: 70px auto;
-  padding: 20px;
-  background-color: #f8f8f8;
-  font-family: Arial, sans-serif;
-  color: #101010;
+    max-width: 1200px;
+    margin: var(--space-xl) auto; /* 32px auto */
+    background-color: var(--off-white);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius-lg);
+    margin-top: 70px;
 }
 
-.profile-body {
-  display: flex;
-  gap: 30px;
-  padding-top: 20px;
-}
+/* --- 1. HEADER (Phần thông tin cá nhân trên cùng) --- */
 
-.profile-left {
-  flex: 0 0 280px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.profile-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-/* ---------------------------------------------------- */
-/* Các khối nội dung (Section Blocks) */
-/* ---------------------------------------------------- */
-.section-block {
-  background-color: #ffffff;
-  padding: 24px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-}
-
-.section-block p,
-.section-block a {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #4a4a4a;
-  margin: 5px 0;
-}
-
-.section-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.section-title h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin: 0;
-  color: #333;
-}
-
-/* ---------------------------------------------------- */
-/* Nút Edit (Bút chì) và Add (Dấu cộng) */
-/* ---------------------------------------------------- */
-.edit-icon,
-.add-icon {
-  background: none;
-  border: 1px solid #e0e0e0;
-  color: #5cb85c;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  transition: background-color 0.2s;
-}
-
-.edit-icon:hover,
-.add-icon:hover {
-  background-color: #f0fdf0;
-}
-
-/* ---------------------------------------------------- */
-/* HEADER */
-/* ---------------------------------------------------- */
 .profile-header {
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 20px;
+    background-color: var(--white);
+    padding: var(--space-xxl); /* 48px */
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-subtle);
+    margin-bottom: var(--space-xl);
 }
 
 .header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+    display: flex;
+    align-items: center;
 }
 
 .avatar-name-section {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+    display: flex;
+    gap: var(--space-lg);
+    align-items: center;
+    width: 100%;
 }
 
 .avatar-wrapper {
-  position: relative;
+    position: relative;
+    flex-shrink: 0; /* Giữ avatar cố định */
 }
 
 .profile-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 15px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--light-blue); /* Viền sáng */
+    transition: all 0.3s;
 }
 
 .edit-avatar-btn {
-  position: absolute;
-  bottom: 0;
-  right: 5px;
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  color: #5cb85c;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 0.7rem;
-}
-
-.header-info h2 {
-  font-size: 1.8rem;
-  margin: 0;
-  font-weight: 700;
-}
-
-.header-info p {
-  margin: 5px 0 0 0;
-  color: #777;
-  font-size: 0.95rem;
-}
-
-/* ---------------------------------------------------- */
-/* Skills, CV, About, Education */
-/* ---------------------------------------------------- */
-.skills-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.skill-tag {
-  background-color: #e0f2e0;
-  color: #387638;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.cv-upload-section a.cv-link {
-  color: #5cb85c;
-  font-weight: 600;
-  text-decoration: underline;
-}
-
-.about-section .view-mode p {
-  white-space: pre-wrap;
-}
-
-/* ---------------------------------------------------- */
-/* EDIT MODE STYLES */
-/* ---------------------------------------------------- */
-.edit-mode input,
-.edit-mode textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.edit-mode .save-btn-small {
-  padding: 8px 15px;
-  background-color: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  float: right;
-}
-
-.edit-mode .save-btn-small:disabled {
-  background-color: #9cc2f1;
-  cursor: not-allowed;
-}
-
-.edit-mode::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* ---------------------------------------------------- */
-/* Responsive Design */
-/* ---------------------------------------------------- */
-@media (max-width: 992px) {
-  .profile-body {
-    flex-direction: column;
-  }
-
-  .profile-left {
-    flex: auto;
-  }
-
-  .header-top {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
-  }
-
-  .avatar-name-section {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .profile-avatar {
-    margin-right: 0;
-  }
-}
-/* profile.css additions for Header Edit Mode */
-
-/* The small edit icon next to the Name/Title */
-.view-name-title-mode .name-and-edit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    background-color: var(--primary-blue);
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.view-name-title-mode .name-and-edit h2 {
-    margin-right: 0;
-}
-
-.edit-icon-small {
-    background: none;
-    border: none;
-    color: #5cb85c;
+    justify-content: center;
     cursor: pointer;
-    padding: 0;
-    transition: opacity 0.2s;
+    box-shadow: var(--box-shadow-subtle);
+    transition: background-color 0.2s;
 }
 
-.edit-icon-small:hover {
-    opacity: 0.7;
+.edit-avatar-btn:hover {
+    background-color: var(--secondary-blue);
 }
 
-/* Edit Mode Styles for Name/Title */
+.edit-avatar-btn svg {
+    color: var(--white);
+}
+
+.header-info {
+    flex-grow: 1;
+}
+
+/* Chế độ xem (View Mode) */
+.view-name-title-mode h2 {
+    font-size: var(--heading-2); /* 32px */
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-blue);
+    margin-bottom: var(--space-xs); /* 4px */
+}
+
+.view-name-title-mode p {
+    font-size: var(--font-size-lg); /* 18px */
+    color: var(--gray-medium);
+}
+
+.name-and-edit {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+/* --- 2. INPUT & EDIT MODE (Phần chỉnh sửa tiêu đề) --- */
+
 .edit-name-title-mode input {
-    display: block;
-    width: 300px; /* Adjust as needed */
-    padding: 8px 10px;
-    margin-bottom: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1.1rem;
-}
-.edit-name-title-mode input:first-child {
-    font-size: 1.8rem; /* Make name bigger */
-    font-weight: 700;
+    width: 100%;
+    padding: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    color: var(--gray-dark);
 }
 
 .edit-actions {
     display: flex;
-    gap: 5px;
-    margin-top: 10px;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
 }
 
-.edit-actions .save-btn,
-.edit-actions .cancel-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0;
-    transition: background-color 0.2s;
-}
-
-.edit-actions .save-btn {
-    background-color: #5cb85c;
-    color: white;
+.save-btn, .cancel-btn {
     border: none;
-}
-.edit-actions .save-btn:hover:not([disabled]) {
-    background-color: #4cae4c;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: var(--font-weight-medium);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
 }
 
-.edit-actions .cancel-btn {
-    background-color: white;
-    color: #5cb85c;
-    border: 1px solid #5cb85c;
+.save-btn {
+    background-color: var(--success-color);
+    color: var(--white);
 }
-.edit-actions .cancel-btn:hover {
-    background-color: #f0fdf0;
+
+.save-btn:hover {
+    background-color: #1e7e34; /* Darker Green */
+}
+
+.cancel-btn {
+    background-color: var(--gray-light);
+    color: var(--gray-dark);
+}
+
+.cancel-btn:hover {
+    background-color: var(--gray-medium);
+    color: var(--white);
+}
+
+/* --- 3. BODY & SECTIONS (Layout 2 Cột) --- */
+
+.profile-body {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Cột trái nhỏ hơn, Cột phải lớn hơn */
+    gap: var(--space-xl); /* 32px */
+    align-items: flex-start;
+}
+
+.section-block {
+    background-color: var(--white);
+    padding: var(--space-xl);
+    border-radius: var(--border-radius-md); /* 10px */
+    box-shadow: var(--box-shadow-subtle);
+    margin-bottom: var(--space-lg);
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--off-white);
+}
+
+.section-title h3 {
+    font-size: var(--heading-3); /* 24px */
+    font-weight: var(--font-weight-bold);
+    color: var(--gray-dark);
+}
+
+/* Icons chỉnh sửa/thêm */
+.edit-icon, .add-icon, .edit-icon-small {
+    background: none;
+    border: none;
+    color: var(--gray-medium);
+    cursor: pointer;
+    padding: var(--space-xs);
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-icon:hover, .add-icon:hover, .edit-icon-small:hover {
+    color: var(--primary-blue);
+    background-color: var(--light-blue);
+}
+
+/* Nội dung xem/mô tả */
+.section-block p {
+    font-size: var(--font-size-base);
+    color: var(--gray-dark);
+    line-height: 1.6;
+}
+
+/* --- 4. Edit Mode Chung cho các Section --- */
+
+.edit-mode input, .edit-mode textarea {
+    width: 100%;
+    padding: var(--space-sm);
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--space-sm);
+    resize: vertical;
+}
+
+.save-btn-small {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    font-size: var(--font-size-sm);
+    padding: var(--space-xs) var(--space-md);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    float: right;
+}
+
+.save-btn-small:hover {
+    background-color: var(--secondary-blue);
+}
+
+/* --- 5. SKILLS SECTION --- */
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.skill-tag {
+    background-color: var(--light-blue);
+    color: var(--primary-blue);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+/* --- 6. CV SECTION --- */
+.cv-link {
+    display: inline-block;
+    color: var(--primary-blue);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    border-bottom: 2px solid var(--light-blue);
+    padding-bottom: 1px;
+    transition: color 0.2s;
+}
+
+.cv-link:hover {
+    color: var(--secondary-blue);
+    border-bottom-color: var(--secondary-blue);
+}
+
+
+/* --- 7. RESPONSIVE --- */
+
+@media (max-width: 992px) {
+    .profile-body {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    }
+    
+    .profile-header {
+        padding: var(--space-xl);
+    }
+}
+
+@media (max-width: 600px) {
+    .candidate-profile {
+        margin: var(--space-md) auto;
+        padding: var(--space-md);
+    }
+    
+    .avatar-name-section {
+        flex-direction: column; /* Stack avatar and name on mobile */
+        text-align: center;
+    }
+    
+    .header-info {
+        margin-top: var(--space-md);
+    }
+    
+    .view-name-title-mode h2 {
+        font-size: var(--heading-3); /* 24px */
+    }
+    
+    .view-name-title-mode p {
+        font-size: var(--font-size-base); /* 16px */
+    }
+    
+    .name-and-edit {
+        justify-content: center;
+    }
+    
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .section-block {
+        padding: var(--space-lg);
+    }
 }

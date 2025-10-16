@@ -1,67 +1,162 @@
-.joblist-card{
-    display: flex;
-    margin: 10px 20px;
-    padding: 20px;
-    border-bottom: 1px solid rgba(172, 172, 172, 0.314);
+/* =================================== */
+/* File: jobList.css - Danh sách việc làm */
+/* =================================== */
 
-    cursor: pointer;
-    .joblist-header{
-        display: flex;
-        justify-content: center; /* căn giữa ngang */
-        overflow: hidden; 
-        margin-right: 20px;
-        width: 10%;
-        .joblist-logo{
-            width: 100%;
-            object-fit: contain;
-            height: auto;
-        }
-    }
-    .joblist-body{
-        .joblist-title{
-            color: var(--blue);
-        }
-        .joblist-info{
-            margin: 10px 0;
-            font-size: 0.8rem;
-            .joblist-company{
-                font-weight: 700;
-            }
-        }
-        .joblist-description {
-            max-width: 90vw;
-            margin-top: 8px;
-            line-height: 1.4;
-            text-align: justify;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
-            -webkit-box-orient: vertical;
-            transition: all 0.3s ease;
-            color: rgb(107, 107, 107);
-        }
+/* ---------------------------------------------------- */
+/* Container ngoài (joblist-container) */
+/* ---------------------------------------------------- */
 
-        .joblist-description.expanded {
-            -webkit-line-clamp: unset;
-            max-height: none;
-        }
+.joblist-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* Sử dụng layout lưới (grid) để tạo sự linh hoạt */
+  gap: var(--space-lg); /* Khoảng cách giữa các card */
+  padding: var(--space-md);
+  width: 100%;
+}
 
-        .joblist-more-btn {
-            margin-top: 6px;
-            background: none;
-            border: none;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 0;
-        }
+/* ---------------------------------------------------- */
+/* Card việc làm (joblist-card) */
+/* ---------------------------------------------------- */
 
-        .joblist-more-btn:hover {
-            text-decoration: underline;
-        }
+.joblist-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-subtle);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer; 
+  border: 1px solid transparent; 
+}
 
+.joblist-card:hover {
+  transform: translateY(-3px); /* Hiệu ứng nâng nhẹ khi hover */
+  box-shadow: var(--box-shadow-medium);
+  border-color: var(--light-blue); /* Viền xanh khi hover */
+}
+
+/* ---------------------------------------------------- */
+/* Header (Logo) */
+/* ---------------------------------------------------- */
+
+.joblist-header {
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+}
+
+.joblist-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: var(--border-radius-sm); /* Bo góc nhẹ cho logo */
+  border: 1px solid var(--gray-light);
+  padding: 5px;
+}
+
+/* ---------------------------------------------------- */
+/* Body và Nội dung */
+/* ---------------------------------------------------- */
+
+.joblist-body {
+  flex-grow: 1; /* Đảm bảo body chiếm hết không gian còn lại */
+}
+
+.joblist-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--gray-darker); /* Tiêu đề đậm và rõ ràng */
+  margin-bottom: var(--space-xs);
+}
+
+.joblist-info {
+  margin-bottom: var(--space-md);
+}
+
+.joblist-company {
+  font-size: var(--font-size-base);
+  color: var(--primary-blue); /* Tên công ty nổi bật */
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-xs);
+}
+
+.joblist-meta {
+  font-size: var(--font-size-sm);
+  color: var(--gray-medium);
+  margin-bottom: var(--space-xs);
+}
+
+.joblist-salary {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--success-color); /* Màu xanh lá cho mức lương hấp dẫn */
+  margin-bottom: var(--space-sm);
+}
+
+.joblist-category {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: var(--light-blue);
+    color: var(--primary-blue);
+    font-size: var(--font-size-xs);
+    border-radius: 4px;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-md);
+}
+
+/* Mô tả */
+.joblist-description {
+  font-size: var(--font-size-sm);
+  color: var(--gray-medium);
+  line-height: 1.5;
+  overflow: hidden;
+  max-height: 3em; /* 3 dòng */
+  transition: max-height 0.3s ease-in-out;
+  text-align: justify;
+}
+
+.joblist-description.expanded {
+  max-height: 1000px; /* Hiển thị toàn bộ khi mở rộng */
+}
+
+/* Nút More/Less */
+.joblist-more-btn {
+  background: none;
+  border: none;
+  color: var(--secondary-blue); /* Màu xanh đậm để dễ đọc */
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  padding: 0;
+  margin-top: var(--space-xs);
+  align-self: flex-start; /* Đặt nút ở bên trái */
+  transition: color 0.2s ease;
+}
+
+.joblist-more-btn:hover {
+  color: var(--primary-blue);
+}
+
+/* ---------------------------------------------------- */
+/* Responsive */
+/* ---------------------------------------------------- */
+
+@media (max-width: 960px) {
+    /* Giảm max-width cho màn hình tablet/laptop nhỏ */
+    .joblist-container {
+        max-width: 700px; 
     }
 }
-.joblist-card:hover{
-    background-color: #F1F1F1;
+
+@media (max-width: 768px) {
+  .joblist-container {
+    max-width: 100%; /* Cho phép container chiếm toàn bộ chiều rộng màn hình nhỏ */
+    padding: var(--space-sm);
+  }
+
+  .joblist-card {
+    padding: var(--space-md);
+  }
 }
