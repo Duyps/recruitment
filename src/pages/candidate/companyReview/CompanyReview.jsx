@@ -34,7 +34,6 @@ export default function CompanyReview() {
   return (
     <div className="company-review-page">
       <header className="company-review-header">
-        <h1>Company Reviews</h1>
         <CompanySearchBox onSelectCompany={handleSelectCompany} />
       </header>
 

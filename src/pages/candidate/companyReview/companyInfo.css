@@ -15,7 +15,7 @@
 /* --- Khung Tổng Thể và Loading --- */
 .company-public-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 70px auto;
   padding: 0 20px 40px;
   font-family: 'Inter', sans-serif, Arial;
   background-color: var(--bg-main);
@@ -37,13 +37,13 @@
   background: linear-gradient(135deg, #14213d, #0f4c75);
   height: 200px;
   border-radius: 8px 8px 0 0;
-  margin-bottom: 80px; /* Tạo không gian cho card profile nổi */
+  margin-bottom: 100px; /* Tạo không gian cho card profile nổi */
   position: relative;
 }
 
 .company-profile-card {
   position: absolute;
-  top: 150px; /* Đẩy xuống dưới banner */
+  top: 100px; /* Đẩy xuống dưới banner */
   left: 50%;
   transform: translateX(-50%);
   
@@ -53,7 +53,6 @@
   padding: 25px 30px;
   border-radius: 12px;
   box-shadow: var(--shadow-hover);
-  
   display: flex;
   align-items: center;
   gap: 25px;

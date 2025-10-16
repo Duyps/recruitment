@@ -1,50 +1,105 @@
-.company-review-page {
-  padding: 20px;
-  background-color: #f9f9f9;
+/* companyReview.css - Phần CSS cho Danh sách Công ty */
+
+:root {
+  --primary-color: #007bff; /* Xanh dương: Màu chủ đạo, tối giản */
+  --text-color: #343a40; /* Đen nhạt */
+  --text-light: #6c757d; /* Xám trung tính */
+  --bg-main: #f8f9fa; /* Nền trang rất nhẹ */
+  --bg-card: #ffffff;
+  --border-color: #dee2e6;
+  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.08); /* Bóng đổ tinh tế, nổi khối */
+  --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.15); /* Bóng đổ khi hover */
 }
 
-.company-review-header {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
+/* --- Danh sách Công ty (Company List) --- */
 .company-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Bố cục lưới linh hoạt */
+  gap: 30px; /* Khoảng cách lớn hơn, tạo cảm giác sang trọng */
 }
 
 .company-card {
-  display: flex;
-  gap: 10px;
-  padding: 12px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: var(--bg-card);
+  padding: 30px; /* Padding lớn */
+  border-radius: 12px; /* Bo góc mềm mại */
+  box-shadow: var(--shadow-subtle);
+  border: 1px solid var(--border-color); /* Viền mỏng */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
-  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .company-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px); /* Hiệu ứng nổi lên mạnh mẽ */
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-color); /* Điểm nhấn viền */
 }
 
+/* --- Logo Công ty --- */
 .company-logo {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
+  border-radius: 8px; /* Bo góc vuông cho logo */
   object-fit: contain;
-  border-radius: 8px;
+  background-color: var(--bg-main);
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+/* --- Thông tin Công ty --- */
+.company-info {
+  flex-grow: 1;
 }
 
 .company-info h3 {
-  margin: 0;
-  font-size: 16px;
+  font-size: 1.4rem; /* Font lớn, hiện đại */
+  color: var(--text-color);
+  margin: 0 0 5px;
+  font-weight: 600; /* Nét đậm vừa phải */
+}
+
+.company-card:hover .company-info h3 {
+  color: var(--primary-color); /* Đổi màu tên công ty khi hover */
 }
 
 .company-info p {
+  font-size: 0.95rem;
+  color: var(--text-light);
   margin: 2px 0;
-  font-size: 14px;
-  color: #555;
+  /* Đảm bảo văn bản không bị tràn */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.company-info p:first-of-type {
+    /* Đặc biệt cho Industry */
+    font-weight: 500;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .company-list {
+    grid-template-columns: 1fr; /* 1 cột trên điện thoại */
+    gap: 20px;
+  }
+  
+  .company-card {
+      padding: 20px;
+  }
+  
+  .company-logo {
+      width: 50px;
+      height: 50px;
+  }
+  
+  .company-info h3 {
+      font-size: 1.2rem;
+  }
 }
