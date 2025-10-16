@@ -1,184 +1,242 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { db, auth } from "../../../firebase";
+import { auth, db } from "../../../firebase";
 import {
   doc,
   getDoc,
-  deleteDoc,
   collection,
-  getDocs,
   query,
   where,
+  getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { FiTrash2, FiEdit, FiToggleLeft, FiToggleRight, FiArrowLeft } from "react-icons/fi";
 import "./jobdetail.css";
 
 export default function JobDetail() {
   const { jobId } = useParams();
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
-  const [applicants, setApplicants] = useState([]);
+  const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
 
+  /* ============================================================
+     🔹 Lấy thông tin công việc
+  ============================================================ */
   useEffect(() => {
-    const fetchData = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
+    const fetchJob = async () => {
+      try {
+        const jobRef = doc(db, "jobs", jobId);
+        const jobSnap = await getDoc(jobRef);
 
-      // Lấy thông tin job
-      const jobRef = doc(db, "jobs", jobId);
-      const jobSnap = await getDoc(jobRef);
-
-      if (jobSnap.exists()) {
-        const data = jobSnap.data();
-        if (data.companyId !== user.uid) {
-          alert("❌ You do not have permission to view this job.");
-          navigate("/company/managejob");
-          return;
+        if (jobSnap.exists()) {
+          setJob({ id: jobSnap.id, ...jobSnap.data() });
+        } else {
+          alert("Không tìm thấy công việc này.");
+          navigate("/company/home/jobs");
         }
-        setJob({ id: jobSnap.id, ...data });
-      } else {
-        alert("Job not found.");
-        navigate("/company/managejob");
+      } catch (err) {
+        console.error("Error fetching job:", err);
       }
-
-      // Lấy danh sách ứng viên apply job này
-      const appsRef = collection(db, "applications");
-      const q = query(appsRef, where("jobId", "==", jobId));
-      const querySnapshot = await getDocs(q);
-      const list = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setApplicants(list);
-
-      setLoading(false);
     };
 
-    fetchData();
+    fetchJob();
+  }, [jobId, navigate]);
+
+  /* ============================================================
+     🔹 Lấy danh sách ứng viên ứng tuyển job này
+  ============================================================ */
+  useEffect(() => {
+    const fetchCandidates = async () => {
+      try {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const companyId = user.uid;
+        const q = query(
+          collection(db, "applications"),
+          where("companyId", "==", companyId),
+          where("jobId", "==", jobId)
+        );
+
+        const snapshot = await getDocs(q);
+        const apps = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setCandidates(apps);
+      } catch (err) {
+        console.error("Error fetching candidates:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCandidates();
   }, [jobId]);
 
-  const handleDelete = async () => {
-    if (window.confirm("⚠️ Delete this job permanently?")) {
-      await deleteDoc(doc(db, "jobs", job.id));
-      alert("🗑️ Job deleted successfully!");
-      navigate("/company/managejob");
+  /* ============================================================
+     🔹 Cập nhật trạng thái ứng viên
+  ============================================================ */
+  const handleStatusChange = async (appId, newStatus) => {
+    try {
+      const ref = doc(db, "applications", appId);
+      await updateDoc(ref, { status: newStatus });
+
+      setCandidates((prev) =>
+        prev.map((app) =>
+          app.id === appId ? { ...app, status: newStatus } : app
+        )
+      );
+    } catch (err) {
+      console.error("Error updating status:", err);
     }
   };
 
-  const toggleActive = async () => {
-    const ref = doc(db, "jobs", job.id);
-    await updateDoc(ref, { isActive: !job.isActive });
-    setJob({ ...job, isActive: !job.isActive });
-  };
+  if (loading) return <p className="jobdetail-loading">Đang tải dữ liệu...</p>;
+  if (!job) return <p className="jobdetail-notfound">Không tìm thấy công việc.</p>;
 
-  const updateApplicantStatus = async (id, status) => {
-    const ref = doc(db, "applications", id);
-    await updateDoc(ref, { status });
-    setApplicants(
-      applicants.map((a) => (a.id === id ? { ...a, status } : a))
-    );
-  };
-
-  if (loading) return <p className="jobdetail-loading">Loading...</p>;
-  if (!job) return null;
-
+  /* ============================================================
+     🔹 Giao diện chính
+  ============================================================ */
   return (
     <div className="jobdetail-container">
-      <button className="back-btn" onClick={() => navigate("/company/managejob")}>
-        <FiArrowLeft /> Back
+      <button className="btn-back" onClick={() => navigate(-1)}>
+        ← Quay lại
       </button>
 
-      <div className="jobdetail-header">
+      {/* ===== THÔNG TIN CÔNG VIỆC ===== */}
+      <section className="jobdetail-section">
         <h2>{job.title}</h2>
-        <div className="header-actions">
-          <button onClick={() => navigate(`/company/editjob/${job.id}`)} className="btn-edit">
-            <FiEdit /> Edit
-          </button>
-          <button onClick={toggleActive} className="btn-toggle">
-            {job.isActive ? <FiToggleRight /> : <FiToggleLeft />}
-            {job.isActive ? "Active" : "Closed"}
-          </button>
-          <button onClick={handleDelete} className="btn-delete">
-            <FiTrash2 /> Delete
-          </button>
-        </div>
-      </div>
+        <p><strong>Mức lương:</strong> {job.salaryRange || "Thương lượng"}</p>
+        <p><strong>Địa điểm:</strong> {job.location || "—"}</p>
+        <p><strong>Kinh nghiệm:</strong> {job.experience || "Không yêu cầu"}</p>
+        <p><strong>Mô tả:</strong> {job.description}</p>
+      </section>
 
-      <div className="jobdetail-grid">
-        {/* --- LEFT: Job Info --- */}
-        <div className="jobdetail-info">
-          <h3>Job Information</h3>
-          <p><strong>Type:</strong> {job.type}</p>
-          <p><strong>Work Mode:</strong> {job.workMode}</p>
-          <p><strong>Location:</strong> {job.location}</p>
-          <p><strong>Salary:</strong> {job.salaryFrom} - {job.salaryTo} VND</p>
-          <p><strong>Experience:</strong> {job.experience || "Not specified"}</p>
-          <p><strong>Education:</strong> {job.education}</p>
-          <p><strong>Deadline:</strong> {job.deadline || "—"}</p>
-          <p><strong>Vacancies:</strong> {job.vacancies || "—"}</p>
-          <p><strong>Skills:</strong> {job.skills}</p>
-          <p><strong>Description:</strong> {job.description}</p>
-          <p><strong>Responsibilities:</strong> {job.responsibilities}</p>
-          <p><strong>Benefits:</strong> {job.benefits}</p>
-        </div>
+      {/* ===== DANH SÁCH ỨNG VIÊN ===== */}
+      <section className="jobdetail-section">
+        <h3>Danh sách ứng viên ({candidates.length})</h3>
 
-        {/* --- RIGHT: Applicants --- */}
-        <div className="jobdetail-applicants">
-          <h3>Applicants ({applicants.length})</h3>
-          {applicants.length === 0 ? (
-            <p>No one has applied yet.</p>
-          ) : (
-            <table className="applicants-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>CV</th>
-                  <th>Status</th>
-                  <th>Action</th>
+        {candidates.length === 0 ? (
+          <p className="no-candidates">Chưa có ai ứng tuyển công việc này.</p>
+        ) : (
+          <table className="candidate-table">
+            <thead>
+              <tr>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Ngày nộp</th>
+                <th>Trạng thái</th>
+                <th>CV</th>
+                <th>Chi tiết</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {candidates.map((c) => (
+                <tr key={c.id}>
+                  <td>{c.candidateName}</td>
+                  <td>{c.candidateEmail}</td>
+                  <td>
+                    {c.appliedAt && c.appliedAt.toDate
+                      ? c.appliedAt.toDate().toLocaleString("vi-VN")
+                      : "—"}
+                  </td>
+                  <td>
+                    <span className={`status-badge ${c.status.toLowerCase()}`}>
+                      {c.status}
+                    </span>
+                  </td>
+                  <td>
+                    {c.cvUrl ? (
+                      <a
+                        href={c.cvUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cv-link"
+                      >
+                        Xem CV
+                      </a>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td>
+                    <button
+                      className="btn-view"
+                      onClick={() => setSelectedCandidate(c)}
+                    >
+                      Xem
+                    </button>
+                  </td>
+                  <td>
+                    <select
+                      value={c.status}
+                      onChange={(e) =>
+                        handleStatusChange(c.id, e.target.value)
+                      }
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Reviewed">Reviewed</option>
+                      <option value="Accepted">Accepted</option>
+                      <option value="Rejected">Rejected</option>
+                    </select>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {applicants.map((a) => (
-                  <tr key={a.id}>
-                    <td>{a.candidateName}</td>
-                    <td>{a.email}</td>
-                    <td>
-                      {a.resumeUrl ? (
-                        <a
-                          href={a.resumeUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          📎 View
-                        </a>
-                      ) : (
-                        "—"
-                      )}
-                    </td>
-                    <td>{a.status || "Pending"}</td>
-                    <td className="status-actions">
-                      <button
-                        onClick={() => updateApplicantStatus(a.id, "Accepted")}
-                        className="btn-accept"
-                      >
-                        ✅ Accept
-                      </button>
-                      <button
-                        onClick={() => updateApplicantStatus(a.id, "Rejected")}
-                        className="btn-reject"
-                      >
-                        ❌ Reject
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </section>
+
+      {/* ===== MODAL XEM ỨNG VIÊN ===== */}
+      {selectedCandidate && (
+        <CandidateModal
+          candidate={selectedCandidate}
+          onClose={() => setSelectedCandidate(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
+   🔹 COMPONENT PHỤ: Modal Xem Chi Tiết Ứng Viên
+============================================================ */
+function CandidateModal({ candidate, onClose }) {
+  return (
+    <div className="modal-backdrop">
+      <div className="modal-content">
+        <button className="modal-close-btn" onClick={onClose}>
+          &times;
+        </button>
+        <h3>Chi tiết ứng viên</h3>
+        <p><strong>Họ tên:</strong> {candidate.candidateName}</p>
+        <p><strong>Email:</strong> {candidate.candidateEmail}</p>
+        <p><strong>Ngày ứng tuyển:</strong>{" "}
+          {candidate.appliedAt && candidate.appliedAt.toDate
+            ? candidate.appliedAt.toDate().toLocaleString("vi-VN")
+            : "—"}
+        </p>
+        <p><strong>Trạng thái:</strong> {candidate.status}</p>
+        <p><strong>Thư giới thiệu:</strong> {candidate.coverLetter || "—"}</p>
+        <p>
+          <strong>CV:</strong>{" "}
+          {candidate.cvUrl ? (
+            <a
+              href={candidate.cvUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cv-link"
+            >
+              Mở CV
+            </a>
+          ) : (
+            "Không có"
           )}
-        </div>
+        </p>
       </div>
     </div>
   );

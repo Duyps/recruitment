@@ -131,7 +131,7 @@ export default function ManageJob() {
 
   /* --- Xem danh sách ứng viên --- */
   const handleViewCandidates = (jobId) => {
-    navigate(`/company/home/jobs/${jobId}/candidates`);
+    navigate(`/company/home/jobs/${jobId}`);
   };
 
   /* --- Sửa job --- */

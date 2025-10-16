@@ -45,6 +45,7 @@ export default function App() {
           <Route path="create" element={<CreateJob />} /> 
           <Route path="jobs" element={<ManageJob />} /> 
           <Route path="profile" element={<CompanyProfile/>} />
+          <Route path="jobs/:jobId" element={<JobDetail />} />
         </Route>
 
         <Route path="/company/login" element={<CompanyLogin />} />

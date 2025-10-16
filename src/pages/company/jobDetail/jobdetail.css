@@ -1,85 +1,257 @@
+/* ==================================== */
+/* === Phong cách Hiện đại & Sang trọng & Tối giản === */
+/* ==================================== */
+
+/* --- Biến CSS (tùy chọn) --- */
+:root {
+  --color-primary: #1a202c; /* Màu chữ chính, rất đậm */
+  --color-secondary: #4a5568; /* Màu chữ phụ/detail */
+  --color-background: #ffffff; /* Nền trắng tinh khôi */
+  --color-surface: #f7fafc; /* Nền của các phần/section, hơi xám nhẹ */
+  --color-border: #e2e8f0; /* Màu border/đường kẻ tinh tế */
+  --color-accent: #007bff; /* Màu nhấn, có thể thay bằng màu khác như #6366f1 (indigo) */
+  --font-family-sans: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+  --box-shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* --- Khung tổng thể --- */
 .jobdetail-container {
-  padding: 24px;
-  color: #fff;
-  background-color: #121212;
-  min-height: 100vh;
+  max-width: 1000px; /* Giới hạn độ rộng để dễ đọc, tạo cảm giác cao cấp */
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: var(--font-family-sans);
+  background-color: var(--color-background);
+  color: var(--color-primary);
 }
 
-.back-btn {
-  background: none;
-  color: #ccc;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.jobdetail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header-actions button {
-  margin-left: 8px;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.btn-edit {
-  background: #3b82f6;
-  color: white;
-}
-.btn-delete {
-  background: #ef4444;
-  color: white;
-}
-.btn-toggle {
-  background: #444;
-  color: white;
-}
-
-.jobdetail-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 20px;
-}
-
-.jobdetail-info, .jobdetail-applicants {
-  background: #1e1e1e;
-  padding: 20px;
-  border-radius: 12px;
-}
-
-.applicants-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.applicants-table th, .applicants-table td {
-  padding: 8px;
-  border-bottom: 1px solid #333;
-}
-
-.btn-accept, .btn-reject {
-  border: none;
-  border-radius: 6px;
-  padding: 5px 10px;
-  cursor: pointer;
-  margin-right: 5px;
-}
-
-.btn-accept { background: #16a34a; color: #fff; }
-.btn-reject { background: #dc2626; color: #fff; }
-
-.jobdetail-loading {
-  color: #ccc;
+/* --- Tải/Không tìm thấy --- */
+.jobdetail-loading,
+.jobdetail-notfound {
   text-align: center;
-  margin-top: 50px;
+  padding: 50px;
+  font-size: 1.1rem;
+  color: var(--color-secondary);
+}
+
+/* --- Nút Quay lại (Minimal) --- */
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--color-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  transition: color 0.2s ease;
+}
+
+.btn-back:hover {
+  color: var(--color-primary);
+}
+
+/* ==================================== */
+/* === Phần Thông tin Công việc === */
+/* ==================================== */
+.jobdetail-section {
+  background-color: var(--color-surface);
+  padding: 30px;
+  border-radius: 8px; /* Bo góc mềm mại, hiện đại */
+  box-shadow: var(--box-shadow-light); /* Bóng đổ tinh tế, sang trọng */
+  margin-bottom: 30px;
+}
+
+.jobdetail-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 20px;
+  border-bottom: 3px solid var(--color-accent); /* Đường kẻ nhấn dưới tiêu đề */
+  padding-bottom: 10px;
+  display: inline-block; /* Chỉ kẻ dưới chữ */
+}
+
+.jobdetail-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.jobdetail-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  color: var(--color-secondary);
+}
+
+.jobdetail-section p strong {
+  color: var(--color-primary);
+  font-weight: 600;
+  display: inline-block;
+  min-width: 100px; /* Căn chỉnh thông tin đẹp hơn */
+}
+
+/* ==================================== */
+/* === Bảng Danh sách Ứng viên (Tối giản & Rõ ràng) === */
+/* ==================================== */
+.candidate-table {
+  width: 100%;
+  border-collapse: collapse; /* Bỏ border kép */
+  font-size: 0.95rem;
+  /* box-shadow: var(--box-shadow-light); */
+  border-radius: 8px;
+  overflow: hidden; /* Quan trọng để bo góc hoạt động tốt */
+}
+
+.candidate-table thead tr {
+  background-color: var(--color-primary); /* Nền header đậm */
+  color: var(--color-background); /* Chữ trắng */
+  text-align: left;
+  font-weight: 600;
+}
+
+.candidate-table th,
+.candidate-table td {
+  padding: 15px; /* Padding rộng rãi tạo không gian trắng */
+  text-align: left;
+}
+
+.candidate-table tbody tr {
+  border-bottom: 1px solid var(--color-border); /* Đường kẻ mỏng, tối giản */
+  transition: background-color 0.3s ease;
+}
+
+.candidate-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.candidate-table tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.05); /* Hover tinh tế */
+}
+
+/* --- Badge Trạng thái --- */
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background-color: #ffedc7; /* Vàng nhạt */
+  color: #c07a00;
+}
+
+.status-badge.reviewed {
+  background-color: #c7eaff; /* Xanh nhạt */
+  color: #0076c0;
+}
+
+.status-badge.accepted {
+  background-color: #d4edda; /* Xanh lá nhạt */
+  color: #155724;
+}
+
+.status-badge.rejected {
+  background-color: #f8d7da; /* Đỏ nhạt */
+  color: #721c24;
+}
+
+/* --- Link CV --- */
+.cv-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.cv-link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* --- Select Hành động --- */
+.candidate-table select {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  appearance: none; /* Bỏ style mặc định của hệ điều hành */
+  cursor: pointer;
+  min-width: 120px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.candidate-table select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+.no-candidates {
+  font-style: italic;
+  color: var(--color-secondary);
+  padding: 20px;
+  text-align: center;
+  background-color: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: 4px;
+}
+
+/* --- Responsive (Tùy chọn) --- */
+@media (max-width: 768px) {
+  .jobdetail-container {
+    margin: 20px auto;
+  }
+  
+  .candidate-table,
+  .candidate-table thead,
+  .candidate-table tbody,
+  .candidate-table th,
+  .candidate-table td,
+  .candidate-table tr {
+    display: block; /* Chuyển bảng thành dạng stack */
+  }
+
+  .candidate-table thead {
+    display: none; /* Ẩn header gốc */
+  }
+
+  .candidate-table tr {
+    margin-bottom: 15px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 10px;
+    background-color: var(--color-background);
+  }
+
+  .candidate-table td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+  
+  /* Tạo label ảo cho từng cột */
+  .candidate-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+  
+  /* Cập nhật React component (JobDetail.js) để thêm data-label vào td: */
+  /* <td data-label="Tên">{c.candidateName}</td> */
+  /* Việc này cần được thực hiện trong file JS nếu muốn Responsive Table hoạt động */
 }
