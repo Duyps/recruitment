@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { auth, db } from "../../../firebase";
 import {
   collection,
@@ -14,85 +14,172 @@ import {
   FiTrash2,
   FiToggleLeft,
   FiToggleRight,
+  FiUsers,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import "./managejob.css";
 
+/* ===========================================================
+   🔹 HÀM HỖ TRỢ: Đếm số lượng ứng viên cho danh sách job
+   =========================================================== */
+const fetchApplicationsCount = async (jobIds, companyId) => {
+  if (jobIds.length === 0) return {};
+
+  const batchSize = 10; // Firestore giới hạn 10 phần tử trong mệnh đề "in"
+  const applicationCounts = {};
+
+  for (let i = 0; i < jobIds.length; i += batchSize) {
+    const batchJobIds = jobIds.slice(i, i + batchSize);
+
+    const q = query(
+      collection(db, "applications"),
+      where("companyId", "==", companyId),
+      where("jobId", "in", batchJobIds)
+    );
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.docs.forEach((docSnap) => {
+      const jobId = docSnap.data().jobId;
+      applicationCounts[jobId] = (applicationCounts[jobId] || 0) + 1;
+    });
+  }
+
+  return applicationCounts;
+};
+
+/* ===========================================================
+   🔹 COMPONENT CHÍNH: ManageJob
+   =========================================================== */
 export default function ManageJob() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
-  const [editingJob, setEditingJob] = useState(null); // job đang được chỉnh sửa
-    const navigate = useNavigate();
-  useEffect(() => {
-    const fetchJobs = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
+  const [editingJob, setEditingJob] = useState(null);
+  const navigate = useNavigate();
 
-      const q = query(collection(db, "jobs"), where("companyId", "==", user.uid));
-      const querySnapshot = await getDocs(q);
+  /* --- Lấy danh sách Job --- */
+  const fetchJobs = useCallback(async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
-      const list = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
+    const companyId = user.uid;
+
+    try {
+      // 1️⃣ Lấy danh sách job theo công ty
+      const jobsQuery = query(collection(db, "jobs"), where("companyId", "==", companyId));
+      const jobsSnapshot = await getDocs(jobsQuery);
+
+      let jobList = jobsSnapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        applicationsCount: 0,
       }));
 
-      setJobs(list);
-      setLoading(false);
-    };
+      // 2️⃣ Lấy số lượng ứng viên cho từng job
+      const jobIds = jobList.map((j) => j.id);
+      const applicationCounts = await fetchApplicationsCount(jobIds, companyId);
 
-    fetchJobs();
+      // 3️⃣ Gắn số lượng ứng viên vào từng job
+      jobList = jobList.map((job) => ({
+        ...job,
+        applicationsCount: applicationCounts[job.id] || 0,
+      }));
+
+      setJobs(jobList);
+    } catch (error) {
+      console.error("Error fetching jobs or applications:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const handleDelete = async (id) => {
-    if (window.confirm("⚠️ Bạn có chắc chắn muốn xóa job này?")) {
+  useEffect(() => {
+    fetchJobs();
+  }, [fetchJobs]);
+
+  /* --- Xử lý xóa job --- */
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
+    const confirm = window.confirm("⚠️ Bạn có chắc chắn muốn xóa job này? Hành động này không thể hoàn tác.");
+
+    if (!confirm) return;
+    try {
       await deleteDoc(doc(db, "jobs", id));
-      setJobs(jobs.filter((job) => job.id !== id));
+      setJobs((prev) => prev.filter((j) => j.id !== id));
+    } catch (error) {
+      alert("Lỗi khi xóa job: " + error.message);
     }
   };
 
-  const toggleStatus = async (job) => {
-    const ref = doc(db, "jobs", job.id);
-    await updateDoc(ref, { isActive: !job.isActive });
-    setJobs(
-      jobs.map((j) => (j.id === job.id ? { ...j, isActive: !j.isActive } : j))
-    );
+  /* --- Toggle trạng thái job --- */
+  const toggleStatus = async (e, job) => {
+    e.stopPropagation();
+    try {
+      const ref = doc(db, "jobs", job.id);
+      await updateDoc(ref, { isActive: !job.isActive });
+
+      setJobs((prev) =>
+        prev.map((j) => (j.id === job.id ? { ...j, isActive: !j.isActive } : j))
+      );
+    } catch (error) {
+      alert("Lỗi khi cập nhật trạng thái: " + error.message);
+    }
   };
 
-  const handleViewDetail = (id) => {
-    navigate(`/company/home/job/${id}`); // trang chi tiết job
+  /* --- Xem danh sách ứng viên --- */
+  const handleViewCandidates = (jobId) => {
+    navigate(`/company/home/jobs/${jobId}/candidates`);
   };
 
+  /* --- Sửa job --- */
+  const handleEditClick = (e, job) => {
+    e.stopPropagation();
+    setEditingJob(job);
+  };
+
+  /* --- Lọc job theo trạng thái --- */
   const filteredJobs =
-    filter === "all"
-      ? jobs
-      : jobs.filter((job) => job.isActive === (filter === "active"));
+    filter === "all" ? jobs : jobs.filter((j) => j.isActive === (filter === "active"));
 
-  if (loading) return <p className="manage-loading">Loading jobs...</p>;
+  if (loading) return <p className="manage-loading">Đang tải danh sách công việc...</p>;
 
+  /* ===========================================================
+     🔹 Giao diện render
+     =========================================================== */
   return (
     <div className="manage-container">
-      <h2 className="manage-title">Manage Posted Jobs</h2>
+      <h2 className="manage-title">
+        Quản lý Tin Tuyển Dụng Đã Đăng ({jobs.length})
+      </h2>
 
+      {/* Toolbar */}
       <div className="manage-toolbar">
         <select
           className="manage-filter"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
-          <option value="all">All Jobs</option>
-          <option value="active">Active</option>
-          <option value="inactive">Closed</option>
+          <option value="all">Tất cả</option>
+          <option value="active">Đang hoạt động</option>
+          <option value="inactive">Đã đóng</option>
         </select>
+
+        <button className="btn-new-job" onClick={() => navigate("/company/home/create")}>
+          + Đăng Tin Mới
+        </button>
       </div>
 
+      {/* Danh sách job */}
       {filteredJobs.length === 0 ? (
-        <p className="manage-empty">No jobs found.</p>
+        <p className="manage-empty">Không tìm thấy công việc nào.</p>
       ) : (
         <div className="manage-grid">
           {filteredJobs.map((job) => (
-            <div key={job.id} className="job-card" onClick={() => handleViewDetail(job.id)}>
-              <div className="job-header" >
+            <div key={job.id} className="job-card">
+              <div className="job-header">
                 <h3 className="job-title">{job.title}</h3>
                 <span className={`job-status ${job.isActive ? "active" : "inactive"}`}>
                   {job.isActive ? "Active" : "Closed"}
@@ -106,45 +193,68 @@ export default function ManageJob() {
               </p>
 
               <div className="job-tags">
-                {job.catalog?.map((tag, index) => (
-                  <span key={index} className="job-tag">
+                {job.catalog?.slice(0, 3).map((tag, i) => (
+                  <span key={i} className="job-tag">
                     {tag}
                   </span>
                 ))}
               </div>
 
               <div className="job-info">
-                <p>💰 {job.salaryRange || "Negotiable"}</p>
-                <p>📍 {job.location || "—"}</p>
-                <p>🧠 {job.experience || "Not specified"}</p>
+                <p>💰 <strong>Mức lương:</strong> {job.salaryRange || "Thương lượng"}</p>
+                <p>📍 <strong>Địa điểm:</strong> {job.location || "—"}</p>
+                <p>🧠 <strong>Kinh nghiệm:</strong> {job.experience || "Chưa xác định"}</p>
               </div>
 
               <div className="job-actions">
-                <button className="btn-edit" onClick={() => setEditingJob(job)}>
-                  <FiEdit /> Edit
-                </button>
+                {/* Xem ứng viên */}
                 <button
-                  className="btn-toggle"
-                  onClick={() => toggleStatus(job)}
-                  title="Toggle active/inactive"
+                  className="btn-view-candidates"
+                  onClick={() => handleViewCandidates(job.id)}
+                  title="Xem danh sách ứng viên đã nộp đơn"
                 >
-                  {job.isActive ? <FiToggleRight /> : <FiToggleLeft />}
+                  <FiUsers size={18} /> Xem Ứng Viên ({job.applicationsCount})
                 </button>
-                <button className="btn-delete" onClick={() => handleDelete(job.id)}>
-                  <FiTrash2 /> Delete
-                </button>
+
+                {/* Hành động phụ */}
+                <div className="job-secondary-actions">
+                  <button
+                    className="btn-edit"
+                    onClick={(e) => handleEditClick(e, job)}
+                    title="Chỉnh sửa chi tiết"
+                  >
+                    <FiEdit />
+                  </button>
+
+                  <button
+                    className="btn-toggle"
+                    onClick={(e) => toggleStatus(e, job)}
+                    title={job.isActive ? "Đóng Job" : "Mở lại Job"}
+                  >
+                    {job.isActive ? <FiToggleRight /> : <FiToggleLeft />}
+                  </button>
+
+                  <button
+                    className="btn-delete"
+                    onClick={(e) => handleDelete(e, job.id)}
+                    title="Xóa Job"
+                  >
+                    <FiTrash2 />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
 
+      {/* Modal chỉnh sửa */}
       {editingJob && (
         <EditJobModal
           job={editingJob}
           onClose={() => setEditingJob(null)}
           onSave={(updated) =>
-            setJobs(jobs.map((j) => (j.id === updated.id ? updated : j)))
+            setJobs((prev) => prev.map((j) => (j.id === updated.id ? updated : j)))
           }
         />
       )}
@@ -152,9 +262,9 @@ export default function ManageJob() {
   );
 }
 
-/* --------------------------------
-   🧱 Component: EditJobModal
----------------------------------- */
+/* ===========================================================
+   🔹 COMPONENT PHỤ: EditJobModal
+   =========================================================== */
 function EditJobModal({ job, onClose, onSave }) {
   const [form, setForm] = useState({
     title: job.title || "",
@@ -163,15 +273,15 @@ function EditJobModal({ job, onClose, onSave }) {
     location: job.location || "",
     experience: job.experience || "",
   });
+
   const [saving, setSaving] = useState(false);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
+
     try {
       const ref = doc(db, "jobs", job.id);
       await updateDoc(ref, form);
@@ -187,51 +297,64 @@ function EditJobModal({ job, onClose, onSave }) {
   return (
     <div className="modal-backdrop">
       <div className="modal-content">
-        <h3>Edit Job</h3>
+        <h3>Chỉnh Sửa Công Việc</h3>
+        <button className="modal-close-btn" onClick={onClose}>
+          &times;
+        </button>
+
         <form onSubmit={handleSubmit}>
+          <label>Tiêu đề</label>
           <input
             type="text"
             name="title"
             value={form.title}
             onChange={handleChange}
-            placeholder="Job title"
+            placeholder="Tiêu đề công việc"
             required
           />
+
+          <label>Mô tả</label>
           <textarea
             name="description"
             rows="4"
             value={form.description}
             onChange={handleChange}
-            placeholder="Description"
-          ></textarea>
+            placeholder="Mô tả chi tiết"
+          />
+
+          <label>Mức lương</label>
           <input
             type="text"
             name="salaryRange"
             value={form.salaryRange}
             onChange={handleChange}
-            placeholder="Salary range"
+            placeholder="Mức lương"
           />
+
+          <label>Địa điểm</label>
           <input
             type="text"
             name="location"
             value={form.location}
             onChange={handleChange}
-            placeholder="Location"
+            placeholder="Địa điểm làm việc"
           />
+
+          <label>Kinh nghiệm</label>
           <input
             type="text"
             name="experience"
             value={form.experience}
             onChange={handleChange}
-            placeholder="Experience"
+            placeholder="Yêu cầu kinh nghiệm"
           />
 
           <div className="modal-actions">
-            <button type="button" onClick={onClose}>
-              Cancel
+            <button type="button" onClick={onClose} disabled={saving}>
+              Hủy
             </button>
             <button type="submit" disabled={saving}>
-              {saving ? "Saving..." : "Save"}
+              {saving ? "Đang lưu..." : "Lưu Thay Đổi"}
             </button>
           </div>
         </form>

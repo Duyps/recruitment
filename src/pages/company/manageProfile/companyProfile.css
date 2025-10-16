@@ -1,0 +1,287 @@
+/* * Company Profile Styles: Modern, Luxurious, Minimalist
+ * Palette: #FFFFFF (White), #1f2937 (Dark Gray/Slate), #3B82F6 (Subtle Accent Blue)
+ */
+
+/* === ROOT CONTAINER === */
+.company-profile {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #1f2937; /* Dark text for high contrast and elegance */
+    background-color: #f9fafb; /* Very light subtle background */
+}
+
+/* === HEADER SECTION === */
+.company-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e5e7eb; /* Subtle separator */
+}
+
+.logo-wrapper {
+    position: relative;
+    flex-shrink: 0;
+    margin-right: 30px;
+}
+
+.company-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%; /* Circular logo for soft elegance */
+    border: 3px solid #ffffff; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft, luxurious shadow */
+}
+
+.edit-logo-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #3B82F6; 
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+    transition: background-color 0.2s;
+}
+
+.edit-logo-btn:hover {
+    background-color: #2563eb;
+}
+
+.company-info h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #111827;
+}
+
+.company-info p {
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+/* === GENERAL BUTTON STYLES (Edit) === */
+.edit-btn {
+    background-color: #ffffff;
+    color: #3B82F6;
+    border: 1px solid #D1D5DB;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.edit-btn:hover {
+    background-color: #f3f4f6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* === SECTION CARDS === */
+.info-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05); /* Light, professional shadow */
+    margin-bottom: 30px;
+    transition: box-shadow 0.3s;
+}
+
+.info-section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    border-left: 4px solid #3B82F6; /* Minimalist accent line */
+    padding-left: 15px;
+    color: #111827;
+}
+
+/* === INFO DISPLAY (Read Mode) === */
+.info-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.info-row {
+    padding: 15px 0;
+    border-bottom: 1px solid #f3f4f6; /* Very light divider */
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row span:first-child {
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.info-row span:last-child {
+    font-weight: 600;
+    color: #111827;
+    text-align: right;
+}
+
+/* === EDIT FORM STYLES === */
+.edit-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row label {
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #1f2937;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #ffffff;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #3B82F6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); /* Subtle focus ring */
+}
+
+textarea {
+    grid-column: 1 / -1; /* Full width for textarea */
+    min-height: 150px;
+    resize: vertical;
+}
+
+.info-section p {
+    line-height: 1.6;
+    color: #4b5563;
+}
+
+/* === FORM ACTIONS (Save/Cancel Buttons) === */
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.save-btn, .cancel-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    min-width: 100px;
+}
+
+.save-btn {
+    background-color: #3B82F6; /* Primary blue accent */
+    color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+    background-color: #2563eb;
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.save-btn:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+}
+
+.cancel-btn {
+    background-color: #e5e7eb; /* Neutral background */
+    color: #4b5563;
+}
+
+.cancel-btn:hover {
+    background-color: #d1d5db;
+}
+
+/* === RESPONSIVENESS (Mobile Optimization) === */
+@media (max-width: 768px) {
+    .company-profile {
+        margin: 20px 0;
+        padding: 0 15px;
+    }
+
+    .company-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding-bottom: 20px;
+    }
+
+    .logo-wrapper {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .company-info h1 {
+        font-size: 1.8rem;
+    }
+
+    .edit-btn {
+        margin-top: 15px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .info-section {
+        padding: 20px;
+    }
+
+    .info-display {
+        grid-template-columns: 1fr;
+    }
+
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .info-row span:last-child {
+        text-align: left;
+    }
+
+    .edit-form {
+        grid-template-columns: 1fr;
+    }
+}

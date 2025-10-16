@@ -1,111 +1,201 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { auth, db } from "../../../firebase";
+import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { FiEdit2, FiCheck, FiX } from "react-icons/fi";
+import "./companyProfile.css";
 
-export default function CompanyProfile({
-  company,
-  editing,
-  formData,
-  setFormData,
-  setEditing,
-  handleSave,
-}) {
-  const [logoPreview, setLogoPreview] = useState(company.logoUrl || "");
+export default function CompanyProfile() {
+  const [company, setCompany] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [logoFile, setLogoFile] = useState(null);
 
-  const handleLogoChange = (e) => {
-    const url = e.target.value;
-    setLogoPreview(url);
-    setFormData({ ...formData, logoUrl: url });
+  const user = auth.currentUser;
+
+  // === Fetch company data ===
+  useEffect(() => {
+    const fetchCompany = async () => {
+      if (!user) return;
+      try {
+        const ref = doc(db, "companies", user.uid);
+        const snap = await getDoc(ref);
+        const data = snap.exists()
+          ? snap.data()
+          : {
+              name: "",
+              industry: "",
+              companyType: "",
+              size: "",
+              website: "",
+              description: "",
+              logoUrl: "",
+            };
+        setCompany(data);
+      } catch (err) {
+        console.error("Error fetching company:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCompany();
+  }, [user]);
+
+  // === Upload to Cloudinary ===
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "cruitment");
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/dxgaqawwy/image/upload`,
+      { method: "POST", body: formData }
+    );
+    const data = await res.json();
+    if (!data.secure_url) throw new Error("Upload failed");
+    return data.secure_url;
   };
+
+  // === Save company info ===
+  const handleSave = async () => {
+    if (!user || !company) return;
+    setSaving(true);
+    try {
+      const ref = doc(db, "companies", user.uid);
+      let updateData = { ...company };
+
+      if (logoFile) {
+        const uploadedUrl = await uploadToCloudinary(logoFile);
+        updateData.logoUrl = uploadedUrl;
+        setLogoFile(null);
+      }
+
+      await updateDoc(ref, { ...updateData, updatedAt: serverTimestamp() });
+      setCompany(updateData);
+      setEditing(false);
+      alert("✅ Company info updated!");
+    } catch (err) {
+      console.error("Update failed:", err);
+      alert("❌ Failed to update info");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (!company) return <p>No company data found.</p>;
 
   return (
     <div className="company-profile">
-      {/* Header với avatar */}
+      {/* === HEADER === */}
       <div className="company-header">
         <div className="logo-wrapper">
           <img
-            src={logoPreview || "https://via.placeholder.com/100"}
+            src={
+              logoFile
+                ? URL.createObjectURL(logoFile)
+                : company.logoUrl || "https://via.placeholder.com/120"
+            }
             alt="Company Logo"
             className="company-logo"
           />
+          {editing && (
+            <label className="edit-logo-btn">
+              <FiEdit2 size={14} />
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => setLogoFile(e.target.files[0])}
+              />
+            </label>
+          )}
         </div>
-
-        {editing && (
-          <div className="logo-input">
-            <label>Logo URL</label>
-            <input
-              type="text"
-              placeholder="Enter image URL"
-              value={formData.logoUrl || ""}
-              onChange={handleLogoChange}
-            />
-          </div>
-        )}
 
         <div className="company-info">
           <h1>{company.name || "Unnamed Company"}</h1>
-          <p>{company.address || "No address available"}</p>
+          <p>{company.address || "No address provided"}</p>
         </div>
+
+        {!editing && (
+          <button className="edit-btn" onClick={() => setEditing(true)}>
+            <FiEdit2 /> Edit
+          </button>
+        )}
       </div>
 
-      {/* === Thông tin cơ bản === */}
-      <InfoSection title="Basic Information" onEdit={() => setEditing(!editing)}>
+      {/* === BASIC INFORMATION === */}
+      <section className="info-section">
+        <h2>Basic Information</h2>
         {editing ? (
-          <div>
-            <div className="info-input">
+          <div className="edit-form">
+            <div className="form-row">
               <label>Company Name</label>
               <input
                 type="text"
-                value={formData.name || ""}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
+                value={company.name || ""}
+                onChange={(e) => setCompany({ ...company, name: e.target.value })}
               />
             </div>
-            <div className="info-input">
+
+            <div className="form-row">
               <label>Industry</label>
               <input
                 type="text"
-                value={formData.industry || ""}
+                value={company.industry || ""}
                 onChange={(e) =>
-                  setFormData({ ...formData, industry: e.target.value })
+                  setCompany({ ...company, industry: e.target.value })
                 }
               />
             </div>
-            <div className="info-input">
+
+            <div className="form-row">
               <label>Company Type</label>
               <input
                 type="text"
-                value={formData.companyType || ""}
+                value={company.companyType || ""}
                 onChange={(e) =>
-                  setFormData({ ...formData, companyType: e.target.value })
+                  setCompany({ ...company, companyType: e.target.value })
                 }
               />
             </div>
-            <div className="info-input">
+
+            <div className="form-row">
               <label>Size</label>
               <input
                 type="text"
-                value={formData.size || ""}
-                onChange={(e) =>
-                  setFormData({ ...formData, size: e.target.value })
-                }
+                value={company.size || ""}
+                onChange={(e) => setCompany({ ...company, size: e.target.value })}
               />
             </div>
-            <div className="info-input">
+
+            <div className="form-row">
               <label>Website</label>
               <input
                 type="text"
-                value={formData.website || ""}
+                value={company.website || ""}
                 onChange={(e) =>
-                  setFormData({ ...formData, website: e.target.value })
+                  setCompany({ ...company, website: e.target.value })
                 }
               />
             </div>
-            <button onClick={handleSave} className="save-btn">
-              Save Changes
-            </button>
+
+            <div className="form-actions">
+              <button onClick={handleSave} disabled={saving} className="save-btn">
+                {saving ? "Saving..." : <FiCheck />}
+              </button>
+              <button
+                onClick={() => {
+                  setEditing(false);
+                  setLogoFile(null);
+                }}
+                className="cancel-btn"
+              >
+                <FiX />
+              </button>
+            </div>
           </div>
         ) : (
-          <div>
+          <div className="info-display">
             <div className="info-row">
               <span>Industry</span>
               <span>{company.industry || "—"}</span>
@@ -124,37 +214,23 @@ export default function CompanyProfile({
             </div>
           </div>
         )}
-      </InfoSection>
+      </section>
 
-      {/* === Giới thiệu === */}
-      <InfoSection title="About" onEdit={() => setEditing(!editing)}>
+      {/* === ABOUT SECTION === */}
+      <section className="info-section">
+        <h2>About</h2>
         {editing ? (
-          <div className="info-input">
-            <label>About Company</label>
-            <textarea
-              rows="4"
-              value={formData.description || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-            />
-          </div>
+          <textarea
+            rows="4"
+            value={company.description || ""}
+            onChange={(e) =>
+              setCompany({ ...company, description: e.target.value })
+            }
+          />
         ) : (
           <p>{company.description || "No description provided."}</p>
         )}
-      </InfoSection>
+      </section>
     </div>
-  );
-}
-
-function InfoSection({ title, children, onEdit }) {
-  return (
-    <section className="info-section">
-      <div className="info-section-header">
-        <h2>{title}</h2>
-        <button onClick={onEdit}>Edit</button>
-      </div>
-      {children}
-    </section>
   );
 }

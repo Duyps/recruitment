@@ -18,6 +18,9 @@ import CandidateLayout from "./pages/candidate/CandidateLayout";
 import CandidateAccount from "./pages/candidate/profile/CandidateProfile";
 import CompanyReview from "./pages/candidate/companyReview/CompanyReview";
 import CompanyPublicInfo from "./pages/candidate/companyReview/CompanyPublicInfo";
+import CompanyProfile from "./pages/company/manageProfile/CompanyProfile";
+import CreateJob from "./pages/company/createJob/CreateJob";
+
 export default function App() {
   return (
     <Router>
@@ -38,17 +41,20 @@ export default function App() {
         <Route path="/candidate/setup" element={<CandidateSetup />} />
        
         {/* Company */}
+        <Route path="/company/home" element={<CompanyHome />}>
+          <Route path="create" element={<CreateJob />} /> 
+          <Route path="jobs" element={<ManageJob />} /> 
+          <Route path="profile" element={<CompanyProfile/>} />
+        </Route>
+
         <Route path="/company/login" element={<CompanyLogin />} />
         <Route path="/company/register" element={<CompanyRegister />} />
-        <Route path="/company/home" element={<CompanyHome />} />
         <Route path="/company/setup" element={<CompanySetup />} />
         <Route path="/company/plan" element={<CompanyPlan />} />
-        <Route path="/company/managejob" element={<ManageJob />} />
         
 
         {/* Default */}
         <Route path="/get-started" element={<GetStarted />} />
-        <Route path="/company/home/job/:jobId" element={<JobDetail />} />
         {/*<Route path="*" element={<NotFound />} />*/}
       </Routes>
     </Router>

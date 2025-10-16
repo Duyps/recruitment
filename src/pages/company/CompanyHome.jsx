@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { useNavigate, NavLink, Outlet } from "react-router-dom";
 import { FiPlus, FiBriefcase, FiUser, FiLogOut } from "react-icons/fi";
 import "./company.css";
-import CompanyProfile from "./manageProfile/CompanyProfile";
-import CreateJob from "./createJob/CreateJob";
-import ManageJob from "./manageJob/ManageJob";
 
 export default function CompanyHome() {
   const [company, setCompany] = useState(null);
-  const [activeTab, setActiveTab] = useState("profile");
-  const [editing, setEditing] = useState(false);
-  const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,23 +18,10 @@ export default function CompanyHome() {
       }
       const ref = doc(db, "companies", user.uid);
       const snap = await getDoc(ref);
-      if (snap.exists()) {
-        setCompany(snap.data());
-        setFormData(snap.data());
-      }
+      if (snap.exists()) setCompany(snap.data());
     };
     fetchCompany();
   }, [navigate]);
-
-  const handleSave = async () => {
-    const user = auth.currentUser;
-    if (!user) return;
-    const ref = doc(db, "companies", user.uid);
-    await updateDoc(ref, formData);
-    setEditing(false);
-    setCompany(formData);
-    alert("✅ Company info updated!");
-  };
 
   if (!company) return <p className="p-10 text-gray-500">Loading...</p>;
 
@@ -51,26 +32,27 @@ export default function CompanyHome() {
         <h2>Company Dashboard</h2>
 
         <nav>
-          <button
-            onClick={() => setActiveTab("create")}
-            className={activeTab === "create" ? "active" : ""}
+          <NavLink
+            to="/company/home/create"
+            className={({ isActive }) => (isActive ? "active" : "")}
           >
             <FiPlus /> Create New
-          </button>
+          </NavLink>
 
-          <button
-            onClick={() => setActiveTab("jobs")}
-            className={activeTab === "jobs" ? "active" : ""}
+          <NavLink
+            to="/company/home/jobs"
+            className={({ isActive }) => (isActive ? "active" : "")}
           >
             <FiBriefcase /> Jobs
-          </button>
+          </NavLink>
 
-          <button
-            onClick={() => setActiveTab("profile")}
-            className={activeTab === "profile" ? "active" : ""}
+          <NavLink
+            to="/company/home/profile"
+            className={({ isActive }) => (isActive ? "active" : "")}
           >
             <FiUser /> Profile
-          </button>
+          </NavLink>
+
           <button
             onClick={async () => {
               await auth.signOut();
@@ -85,24 +67,8 @@ export default function CompanyHome() {
 
       {/* === Main Content === */}
       <main className="main-content">
-        {activeTab === "profile" && (
-          <CompanyProfile
-            company={company}
-            editing={editing}
-            formData={formData}
-            setFormData={setFormData}
-            setEditing={setEditing}
-            handleSave={handleSave}
-          />
-        )}
-
-        {activeTab === "create" && (
-          <CreateJob/>
-        )}
-
-        {activeTab === "jobs" && (
-          <ManageJob/>
-        )}
+        {/* Hiển thị route con */}
+        <Outlet context={{ company, setCompany }} />
       </main>
     </div>
   );
