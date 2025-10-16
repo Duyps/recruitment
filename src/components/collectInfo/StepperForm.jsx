@@ -1,164 +1,217 @@
+// File: StepperForm.jsx (Đã thiết kế lại)
+
 import { useState } from "react";
-import './form.css';
+import { FiArrowLeft, FiArrowRight, FiCheck } from "react-icons/fi";
+import "./form.css";
+
+// Tổng số bước
+const TOTAL_STEPS = 6;
+
 export default function StepperForm({ formData, onChange, onFinish }) {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1);
 
-  const next = () => setStep((s) => s + 1);
-  const back = () => setStep((s) => s - 1);
-  const skip = () => next();
+  const next = () => {
+        // Có thể thêm logic kiểm tra dữ liệu ở đây trước khi chuyển bước
+        setStep((s) => s + 1);
+    };
+  const back = () => setStep((s) => s - 1);
+  const skip = () => next(); // Giữ nguyên chức năng skip
 
-  // Mỗi bước là 1 nhóm thông tin
-  const renderStep = () => {
-    switch (step) {
-      case 1:
-        return (
-          <>
-            <h3>Step 1: Thông tin cơ bản</h3>
-            <input
-              placeholder="Họ và tên"
-              value={formData.fullName}
-              onChange={(e) => onChange("fullName", e.target.value)}
-            /><br />
-            <input
-              placeholder="Năm sinh"
-              value={formData.birthYear}
-              onChange={(e) => onChange("birthYear", e.target.value)}
-            /><br />
-            <select
-              value={formData.gender}
-              onChange={(e) => onChange("gender", e.target.value)}
-            >
-              <option value="">Giới tính</option>
-              <option>Nam</option>
-              <option>Nữ</option>
-              <option>Khác</option>
-            </select>
-          </>
-        );
-      case 2:
-        return (
-          <>
-            <h3>Step 2: Liên hệ</h3>
-            <input
-              placeholder="Số điện thoại"
-              value={formData.phone}
-              onChange={(e) => onChange("phone", e.target.value)}
-            /><br />
-            <input
-              placeholder="Địa chỉ (thành phố, quốc gia)"
-              value={formData.address}
-              onChange={(e) => onChange("address", e.target.value)}
-            />
-          </>
-        );
-      case 3:
-        return (
-          <>
-            <h3>Step 3: Học vấn</h3>
-            <input
-              placeholder="Trình độ học vấn"
-              value={formData.education}
-              onChange={(e) => onChange("education", e.target.value)}
-            /><br />
-            <input
-              placeholder="Chuyên ngành"
-              value={formData.major}
-              onChange={(e) => onChange("major", e.target.value)}
-            /><br />
-            <input
-              placeholder="Năm tốt nghiệp"
-              value={formData.graduationYear}
-              onChange={(e) => onChange("graduationYear", e.target.value)}
-            />
-          </>
-        );
-      case 4:
-        return (
-          <>
-            <h3>Step 4: Kinh nghiệm làm việc</h3>
-            <input
-              placeholder="Số năm kinh nghiệm"
-              value={formData.experienceYears}
-              onChange={(e) => onChange("experienceYears", e.target.value)}
-            /><br />
-            <input
-              placeholder="Vị trí gần đây nhất"
-              value={formData.lastPosition}
-              onChange={(e) => onChange("lastPosition", e.target.value)}
-            /><br />
-            <input
-              placeholder="Công ty gần đây nhất"
-              value={formData.lastCompany}
-              onChange={(e) => onChange("lastCompany", e.target.value)}
-            />
-          </>
-        );
-      case 5:
-        return (
-          <>
-            <h3>Step 5: Kỹ năng</h3>
-            <input
-              placeholder="Nhập kỹ năng, cách nhau bởi dấu phẩy"
-              value={formData.skills.join(", ")}
-              onChange={(e) =>
-                onChange("skills", e.target.value.split(",").map((s) => s.trim()))
-              }
-            />
-          </>
-        );
-      case 6:
-        return (
-          <>
-            <h3>Step 6: Mục tiêu nghề nghiệp</h3>
-            <input
-              placeholder="Mục tiêu nghề nghiệp"
-              value={formData.careerGoal}
-              onChange={(e) => onChange("careerGoal", e.target.value)}
-            /><br />
-            <input
-              placeholder="Mức lương mong muốn (VNĐ)"
-              value={formData.expectedSalary}
-              onChange={(e) => onChange("expectedSalary", e.target.value)}
-            /><br />
-            <select
-              value={formData.workType}
-              onChange={(e) => onChange("workType", e.target.value)}
-            >
-              <option value="">Hình thức làm việc</option>
-              <option>Full-time</option>
-              <option>Part-time</option>
-              <option>Remote</option>
-            </select>
-          </>
-        );
-      default:
-        return <p>Hoàn tất!</p>;
-    }
-  };
+  // Dữ liệu tiêu đề các bước
+  const stepTitles = [
+    "Thông tin cơ bản",
+    "Liên hệ",
+    "Học vấn",
+    "Kinh nghiệm làm việc",
+    "Kỹ năng",
+    "Mục tiêu nghề nghiệp",
+  ];
 
-  return (
-    <div style={{
-      background: "#fff",
-      padding: "30px 40px",
-      borderRadius: 12,
-      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-      width: "350px",
-      textAlign: "center"
-    }}>
-      {renderStep()}
+  const renderStepContent = () => {
+    switch (step) {
+      case 1:
+        return (
+          <div className="step-content-grid"> {/* Thẻ bọc mới */}
+            <input
+              placeholder="Họ và tên"
+              value={formData.fullName}
+              onChange={(e) => onChange("fullName", e.target.value)}
+            />
+            <input
+              placeholder="Năm sinh"
+              type="number"
+              value={formData.birthYear}
+              onChange={(e) => onChange("birthYear", e.target.value)}
+            />
+            <select
+              value={formData.gender}
+              onChange={(e) => onChange("gender", e.target.value)}
+            >
+              <option value="">Giới tính</option>
+              <option>Nam</option>
+              <option>Nữ</option>
+              <option>Khác</option>
+            </select>
+          </div>
+        );
 
-      <div style={{ marginTop: 20, display: "flex", justifyContent: "space-between" }}>
-        {step > 1 && <button onClick={back}>⬅ Back</button>}
-        {step < 6 && (
-          <>
-            <button onClick={skip}>Skip</button>
-            <button onClick={next}>Next ➡</button>
-          </>
-        )}
-        {step === 6 && <button onClick={onFinish}>Finish ✅</button>}
-      </div>
+      case 2:
+        return (
+          <div className="step-content-grid">
+            <input
+              placeholder="Số điện thoại"
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => onChange("phone", e.target.value)}
+            />
+            <input
+              placeholder="Địa chỉ (thành phố, quốc gia)"
+              value={formData.address}
+              onChange={(e) => onChange("address", e.target.value)}
+            />
+          </div>
+        );
 
-      <p style={{ marginTop: 10 }}>Step {step} / 6</p>
-    </div>
-  );
+      case 3:
+        return (
+          <div className="step-content-grid">
+            <input
+              placeholder="Trình độ học vấn (VD: Đại học, Cao đẳng)"
+              value={formData.education}
+              onChange={(e) => onChange("education", e.target.value)}
+            />
+            <input
+              placeholder="Chuyên ngành"
+              value={formData.major}
+              onChange={(e) => onChange("major", e.target.value)}
+            />
+            <input
+              placeholder="Năm tốt nghiệp"
+              type="number"
+              value={formData.graduationYear}
+              onChange={(e) => onChange("graduationYear", e.target.value)}
+            />
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="step-content-grid">
+            <input
+              placeholder="Số năm kinh nghiệm"
+              type="number"
+              value={formData.experienceYears}
+              onChange={(e) => onChange("experienceYears", e.target.value)}
+            />
+            <input
+              placeholder="Vị trí gần đây nhất"
+              value={formData.lastPosition}
+              onChange={(e) => onChange("lastPosition", e.target.value)}
+            />
+            <input
+              placeholder="Công ty gần đây nhất"
+              value={formData.lastCompany}
+              onChange={(e) => onChange("lastCompany", e.target.value)}
+            />
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="step-content-grid">
+            <textarea /* Thay input bằng textarea cho kỹ năng để dễ nhập nhiều dòng */
+              placeholder="Nhập kỹ năng, cách nhau bởi dấu phẩy hoặc xuống dòng"
+              value={formData.skills.join(", ")}
+              onChange={(e) =>
+                onChange(
+                  "skills",
+                  e.target.value.split(/,?\s*[\n,]\s*/).filter(s => s.trim() !== '').map((s) => s.trim()) // Xử lý cả dấu phẩy và xuống dòng
+                )
+              }
+              rows="5"
+            />
+          </div>
+        );
+
+      case 6:
+        return (
+          <div className="step-content-grid">
+            <textarea 
+              placeholder="Mục tiêu nghề nghiệp"
+              value={formData.careerGoal}
+              onChange={(e) => onChange("careerGoal", e.target.value)}
+              rows="3"
+            />
+            <input
+              placeholder="Mức lương mong muốn (VNĐ)"
+              type="number"
+              value={formData.expectedSalary}
+              onChange={(e) => onChange("expectedSalary", e.target.value)}
+            />
+            <select
+              value={formData.workType}
+              onChange={(e) => onChange("workType", e.target.value)}
+            >
+              <option value="">Hình thức làm việc</option>
+              <option>Full-time</option>
+              <option>Part-time</option>
+              <option>Remote</option>
+            </select>
+          </div>
+        );
+
+      default:
+        return <p className="finish-message">🎉 Đã hoàn tất! Nhấn "Finish" để lưu hồ sơ của bạn.</p>;
+    }
+  };
+
+  return (
+    <div className="stepper-form">
+      {/* THANH TIẾN TRÌNH MỚI */}
+      <div className="progress-bar-container">
+        <div className="progress-bar-track">
+          <div
+            className="progress-bar-fill"
+            style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
+          ></div>
+        </div>
+        <p className="step-indicator">Step {step} / {TOTAL_STEPS}</p>
+      </div>
+
+      {/* TIÊU ĐỀ BƯỚC MỚI */}
+      <h3 className="step-title">
+        <span className="step-number">Step {step}:</span> {stepTitles[step - 1]}
+      </h3>
+
+      {/* NỘI DUNG BƯỚC */}
+      {renderStepContent()}
+
+      <div className="stepper-buttons">
+        {step > 1 && (
+          <button className="btn-back" onClick={back}>
+            <FiArrowLeft /> Back
+          </button>
+        )}
+        
+        {/* Đặt button next/skip ở bên phải */}
+        <div className="right-controls"> 
+          {step < TOTAL_STEPS && (
+            <div className="btn-group">
+                <button className="btn-skip" onClick={skip}>
+                    Skip
+                </button>
+                <button className="btn-next" onClick={next}>
+                    Next <FiArrowRight />
+                </button>
+            </div>
+          )}
+          {step === TOTAL_STEPS && (
+            <button className="btn-finish" onClick={onFinish}>
+                <FiCheck /> Finish Profile
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }

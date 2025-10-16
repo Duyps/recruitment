@@ -1,3 +1,313 @@
-.candidate-page{
-    
+/* =================================== */
+/* File: candidate.css (hoặc tên file CSS bạn chọn) */
+/* Áp dụng CSS cho component CandidateLogin */
+/* =================================== */
+
+/* ---------------------------------------------------- */
+/* Cài đặt chung cho trang (candidate-login-page) */
+/* ---------------------------------------------------- */
+
+.candidate-login-page {
+  /* Tương tự như trang đăng nhập chung, tạo nền tối giản */
+  background-color: var(--off-white);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-family-primary);
+  padding: var(--space-xl);
+}
+
+/* ---------------------------------------------------- */
+/* Card Đăng nhập (candidate-login-card) */
+/* ---------------------------------------------------- */
+
+.candidate-login-card {
+  /* Thiết kế tối giản, sang trọng */
+  background-color: var(--white);
+  padding: var(--space-xxl); 
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-subtle); 
+  width: 100%;
+  max-width: 400px; 
+  text-align: center;
+}
+
+.candidate-login-card h2 {
+  font-size: var(--heading-3);
+  color: var(--primary-blue); /* Điểm nhấn xanh dương cho tiêu đề */
+  margin-bottom: var(--space-xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.5px;
+}
+
+/* ---------------------------------------------------- */
+/* Form và các trường nhập liệu */
+/* ---------------------------------------------------- */
+
+.candidate-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md); 
+}
+
+.candidate-login-form input {
+  padding: var(--space-md);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  color: var(--gray-dark);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.candidate-login-form input:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px var(--light-blue);
+  outline: none;
+}
+
+/* ---------------------------------------------------- */
+/* Nút bấm (Button) */
+/* ---------------------------------------------------- */
+
+.candidate-login-form button {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: var(--space-md);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-top: var(--space-sm);
+  text-transform: uppercase;
+}
+
+.candidate-login-form button:hover {
+  background-color: var(--secondary-blue);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+/* ---------------------------------------------------- */
+/* Footer và các Link (candidate-login-footer) */
+/* ---------------------------------------------------- */
+
+.candidate-login-footer {
+  margin-top: var(--space-xl);
+}
+
+.candidate-login-footer p {
+  font-size: var(--font-size-sm);
+  color: var(--gray-medium);
+  margin-bottom: var(--space-xs);
+}
+
+.candidate-login-footer .link {
+  color: var(--primary-blue);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.candidate-login-footer .link:hover {
+  color: var(--secondary-blue);
+  text-decoration: underline;
+}
+
+.candidate-login-footer .back-link {
+  font-size: var(--font-size-sm);
+  color: var(--gray-medium);
+  cursor: pointer;
+  margin-top: var(--space-sm);
+  display: block; 
+}
+
+.candidate-login-footer .back-link:hover {
+  color: var(--gray-dark);
+}
+
+/* ---------------------------------------------------- */
+/* Responsive */
+/* ---------------------------------------------------- */
+
+
+/* =================================== */
+/* File: candidate.css - Bổ sung cho trang Đăng ký Ứng viên */
+/* =================================== */
+
+/* ---------------------------------------------------- */
+/* Container ngoài (candidate-register-container) */
+/* ---------------------------------------------------- */
+
+.candidate-register-container {
+  /* Tương tự như trang đăng nhập, tạo nền tối giản */
+  background-color: var(--off-white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-family-primary);
+  padding: var(--space-xl);
+  
+  /* Tạo card/khu vực đăng ký */
+  background-color: var(--white);
+  padding: var(--space-xxl); 
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-subtle); 
+  width: 100%;
+  max-width: 400px; 
+  text-align: center;
+}
+
+.candidate-register-container h2 {
+  font-size: var(--heading-3);
+  color: var(--primary-blue); 
+  margin-bottom: var(--space-xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.5px;
+}
+
+/* ---------------------------------------------------- */
+/* Form Đăng ký (candidate-register-form) */
+/* ---------------------------------------------------- */
+
+.candidate-register-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md); 
+}
+
+/* ---------------------------------------------------- */
+/* Input Fields (candidate-input) */
+/* ---------------------------------------------------- */
+
+.candidate-input {
+  /* Tái sử dụng phong cách input tối giản */
+  padding: var(--space-md);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  color: var(--gray-dark);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.candidate-input:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px var(--light-blue);
+  outline: none;
+}
+
+/* ---------------------------------------------------- */
+/* Nút bấm (candidate-button) */
+/* ---------------------------------------------------- */
+
+.candidate-button {
+  /* Tái sử dụng phong cách nút bấm chính */
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: var(--space-md);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-top: var(--space-sm);
+  text-transform: uppercase;
+}
+
+.candidate-button:hover:not(:disabled) {
+  background-color: var(--secondary-blue);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.candidate-button:disabled {
+  /* Hiệu ứng khi loading */
+  background-color: var(--gray-light);
+  color: var(--gray-medium);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* =================================== */
+/* File: candidate.css - Trang Setup Profile */
+/* =================================== */
+
+/* ---------------------------------------------------- */
+/* Container ngoài (candidate-setup-container) */
+/* ---------------------------------------------------- */
+
+.candidate-setup-container {
+  /* Thiết lập nền trắng ngà, tạo không gian thoáng đãng */
+  background-color: var(--off-white);
+  min-height: 100vh;
+  padding: var(--space-xxl) var(--space-xl); /* Padding rộng rãi */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Căn giữa nội dung */
+  font-family: var(--font-family-primary);
+}
+
+.candidate-setup-title {
+  font-size: var(--heading-2); /* Tiêu đề lớn hơn cho trang Setup quan trọng */
+  color: var(--primary-blue); 
+  margin-bottom: var(--space-xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* ---------------------------------------------------- */
+/* Giả định CSS cho StepperForm (Cần áp dụng thêm trong component đó) */
+/* ---------------------------------------------------- */
+
+/* Cấu trúc chung cho StepperForm để nó nằm trong container */
+/* Giả định StepperForm có class là .stepper-form */
+.stepper-form {
+  /* Đảm bảo StepperForm có card và chiều rộng tối đa phù hợp */
+  background-color: var(--white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-subtle);
+  width: 100%;
+  max-width: 900px; /* Chiều rộng lớn hơn để chứa form nhiều bước */
+  padding: var(--space-xxl); 
+}
+
+/* ---------------------------------------------------- */
+/* Responsive */
+/* ---------------------------------------------------- */
+@media (max-width: 960px) {
+  /* Giảm padding cho màn hình tablet/nhỏ hơn */
+  .candidate-setup-container {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .candidate-setup-title {
+    font-size: var(--heading-3);
+  }
+
+  .stepper-form {
+    padding: var(--space-xl);
+  }
+}
+
+/* ---------------------------------------------------- */
+/* Responsive */
+/* ---------------------------------------------------- */
+@media (max-width: 500px) {
+  .candidate-login-card {
+    padding: var(--space-xl);
+    max-width: 90%;
+  }
+  .candidate-register-container {
+    padding: var(--space-xl);
+    max-width: 90%;
+    /* Loại bỏ nền off-white của body để container chiếm hết màn hình */
+    background-color: var(--white);
+    box-shadow: none;
+    border: 1px solid var(--gray-light);
+  }
 }

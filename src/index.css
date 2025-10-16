@@ -14,7 +14,73 @@ body, html {
   padding: 0;
 }
 
-:root{
-    --blue: #2557A7;
-    --blue-hover:#2f71da;
+/* =================================== */
+/* File: index.css                     */
+/* Định nghĩa các biến CSS (CSS Custom Properties) */
+/* =================================== */
+
+:root {
+  /* ---------------------- */
+  /* Màu sắc cơ bản (Color Palette) */
+  /* ---------------------- */
+  
+  /* Màu xanh dương chủ đạo - Hiện đại & Sang trọng */
+  --primary-blue: #2557A7;        /* Xanh dương chính (Dùng cho nút bấm, liên kết, tiêu đề quan trọng) */
+  --secondary-blue: #1c4280;      /* Xanh dương tối hơn (Dùng cho hover, active) */
+  --light-blue: #E6F0FF;          /* Xanh dương rất nhạt (Dùng cho nền, highlight nhẹ) */
+
+  /* Màu trung tính - Tối giản */
+  --white: #FFFFFF;               /* Trắng tinh khiết (Nền chính, chữ) */
+  --off-white: #F9F9F9;           /* Trắng ngà (Nền phụ, container) */
+  --gray-light: #CCCCCC;          /* Xám nhạt (Đường viền, separator) */
+  --gray-medium: #6C757D;         /* Xám trung bình (Chữ phụ, mô tả) */
+  --gray-dark: #343A40;           /* Xám đậm (Chữ chính) */
+  
+  /* Màu phản hồi (Feedback) */
+  --success-color: #28A745;       /* Xanh lá (Thành công) */
+  --error-color: #DC3545;         /* Đỏ (Lỗi) */
+  --warning-color: #FFC107;       /* Vàng (Cảnh báo) */
+
+  /* ---------------------- */
+  /* Typography (Kiểu chữ) */
+  /* ---------------------- */
+  
+  --font-family-primary: 'Poppins', sans-serif; /* Hoặc 'Inter', 'Roboto', v.v. - Chọn font hiện đại */
+  --font-family-secondary: 'Poppins', sans-serif; /* Font dự phòng */
+
+  /* Kích thước chữ cơ bản (Base size: 16px) */
+  --font-size-base: 1rem;         /* 16px */
+  --font-size-sm: 0.875rem;       /* 14px */
+  --font-size-lg: 1.125rem;       /* 18px */
+  
+  /* Kích thước tiêu đề (Minimalist headers) */
+  --heading-1: 2.5rem;            /* 40px */
+  --heading-2: 2rem;              /* 32px */
+  --heading-3: 1.5rem;            /* 24px */
+  
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* ---------------------- */
+  /* Spacing & Layout */
+  /* ---------------------- */
+  
+  --spacing-unit: 0.25rem;        /* Đơn vị cơ bản (4px) */
+  --space-xs: calc(1 * var(--spacing-unit)); /* 4px */
+  --space-sm: calc(2 * var(--spacing-unit)); /* 8px */
+  --space-md: calc(4 * var(--spacing-unit)); /* 16px */
+  --space-lg: calc(6 * var(--spacing-unit)); /* 24px */
+  --space-xl: calc(8 * var(--spacing-unit)); /* 32px */
+  --space-xxl: calc(12 * var(--spacing-unit)); /* 48px */
+
+  /* Border Radius (Góc bo) - Minimalist/Soft */
+  --border-radius-sm: 4px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 12px;
+
+  /* Box Shadow (Bóng đổ) - Sang trọng, tinh tế */
+  --box-shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03); 
+  --box-shadow-hover: 0 8px 15px rgba(0, 123, 255, 0.1);
 }

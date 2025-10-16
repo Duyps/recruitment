@@ -1,57 +1,294 @@
-.homepage{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    padding: 100px 0;
-    background: linear-gradient(135deg, #f8f9ff, #e3f2fd);
-}
-h1{
-    font-size: 2rem;
-  font-weight: 700;
-  color: #222;
-  margin-bottom: 40px;
-}
-.button-group{
+/* =================================== */
+/* File: home.css (hoặc homepage.css) */
+/* Áp dụng CSS cho component HomePage (Trang chọn vai trò) */
+/* =================================== */
+
+/* ---------------------------------------------------- */
+/* Cài đặt chung cho trang (homepage) */
+/* ---------------------------------------------------- */
+
+.homepage {
+  /* Thiết lập nền trắng ngà, căn giữa nội dung */
+  background-color: var(--off-white); 
+  min-height: 100vh;
   display: flex;
-  gap: 20px;  
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+  font-family: var(--font-family-primary);
 }
-.role-btn{
-    padding: 20px;
-    border-radius: 20px;
-    border: solid 1px rgb(70, 70, 70);
-    font-size: 1.1 rem;
-    background-color: inherit;
+
+.homepage h1 {
+  font-size: var(--heading-1);
+  color: var(--gray-dark);
+  margin-top: calc(5 * var(--space-xl)); /* Tạo khoảng cách lớn phía trên */
+  margin-bottom: var(--space-xl);
+  font-weight: var(--font-weight-light); /* Font nhẹ tạo sự sang trọng */
+  max-width: 600px;
 }
-.role-btn:active{
-    scale: 1.02;
+
+/* ---------------------------------------------------- */
+/* Nhóm nút chọn vai trò (button-group) */
+/* ---------------------------------------------------- */
+
+.button-group {
+  display: flex;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+  justify-content: center;
+}
+
+.role-btn {
+  /* Thiết kế tối giản, sang trọng như một card */
+  background-color: var(--white);
+  border: 2px solid var(--gray-light);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-xxl); /* Padding lớn */
+  width: 100%;
+  max-width: 350px;
+  height: 180px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--gray-medium);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: var(--box-shadow-subtle);
+}
+
+.role-btn:hover {
+  /* Hiệu ứng khi di chuột */
+  border-color: var(--primary-blue);
+  color: var(--gray-dark);
+  transform: translateY(-3px); /* Hiệu ứng nâng nhẹ */
+  box-shadow: var(--box-shadow-hover);
 }
 
 .role-btn.selected {
-    border: solid 2px #2557A7;
-    background-color: white;
+  /* Phong cách khi được chọn */
+  border-color: var(--primary-blue);
+  background-color: var(--light-blue); /* Nền xanh nhạt làm nổi bật */
+  color: var(--primary-blue);
+  box-shadow: 0 0 0 4px var(--light-blue), var(--box-shadow-subtle); /* Thêm viền sáng */
 }
 
+/* ---------------------------------------------------- */
+/* Nút Xác nhận (confirm-section) */
+/* ---------------------------------------------------- */
+
 .confirm-section {
-  margin-top: 30px;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xl);
 }
 
 .confirm-btn {
-  font-size: 1rem;
-  background-color: #2557A7;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 10px;
+  /* Nút bấm chính, nổi bật */
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: var(--space-md) var(--space-xxl);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.5px;
 }
 
 .confirm-btn:hover {
+  background-color: var(--secondary-blue);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
 }
 
+/* ---------------------------------------------------- */
+/* Link Đăng nhập (login-text) */
+/* ---------------------------------------------------- */
+
 .login-text {
-  margin-top: 40px;
+  margin-top: var(--space-lg);
+  font-size: var(--font-size-sm);
+  color: var(--gray-medium);
 }
 
 .login-link {
+  color: var(--primary-blue);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: var(--secondary-blue);
   text-decoration: underline;
+}
+
+/* ---------------------------------------------------- */
+/* Responsive cho thiết bị di động */
+/* ---------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .homepage h1 {
+    font-size: var(--heading-2);
+    margin-top: var(--space-xxl);
+    padding: 0 var(--space-md);
+  }
+
+  .button-group {
+    flex-direction: column; /* Xếp chồng 2 nút lên nhau */
+    gap: var(--space-md);
+    width: 90%;
+  }
+
+  .role-btn {
+    height: auto;
+    padding: var(--space-xl);
+  }
+
+  .confirm-btn {
+    width: 90vw; /* Đảm bảo nút chiếm gần hết chiều rộng */
+    max-width: 350px;
+  }
+}
+
+/*tragn géttarted*/
+/* =================================== */
+/* File: home.css                      */
+/* Áp dụng CSS cho component GetStarted (Trang Đăng nhập) */
+/* =================================== */
+
+/* ---------------------------------------------------- */
+/* Cài đặt chung cho trang (getstarted-page) */
+/* ---------------------------------------------------- */
+
+.getstarted-page {
+  /* Thiết lập nền trắng tinh khiết, tối giản */
+  background-color: var(--off-white); 
+  min-height: calc(100vh - 80px); /* Đảm bảo chiều cao tối thiểu, trừ chiều cao của Header */
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center;     /* Căn giữa theo chiều dọc */
+  padding: var(--space-xl) 0;
+  font-family: var(--font-family-primary);
+}
+
+/* ---------------------------------------------------- */
+/* Card Đăng nhập (getstarted-card) */
+/* ---------------------------------------------------- */
+
+.getstarted-card {
+  /* Thiết kế tối giản, sang trọng */
+  background-color: var(--white);
+  padding: var(--space-xxl); /* Khoảng đệm rộng rãi */
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-subtle); /* Bóng đổ tinh tế */
+  width: 100%;
+  max-width: 420px; /* Giới hạn chiều rộng để tạo sự tối giản */
+  text-align: center;
+}
+
+.getstarted-card h2 {
+  font-size: var(--heading-2);
+  color: var(--gray-dark);
+  margin-bottom: var(--space-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.getstarted-card p {
+  color: var(--gray-medium);
+  margin-bottom: var(--space-xl);
+  font-size: var(--font-size-base);
+}
+
+/* ---------------------------------------------------- */
+/* Form và các trường nhập liệu (getstarted-form) */
+/* ---------------------------------------------------- */
+
+.getstarted-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md); /* Khoảng cách giữa các phần tử form */
+}
+
+.getstarted-form input {
+  /* Thiết kế input tối giản */
+  padding: var(--space-md);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  color: var(--gray-dark);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.getstarted-form input:focus {
+  /* Điểm nhấn xanh dương khi focus */
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px var(--light-blue); /* Hiệu ứng vòng sáng nhẹ */
+  outline: none;
+}
+
+/* ---------------------------------------------------- */
+/* Nút bấm chính (Button) */
+/* ---------------------------------------------------- */
+
+.getstarted-form button {
+  /* Nút bấm hiện đại, sử dụng màu xanh dương chủ đạo */
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: var(--space-md) var(--space-lg);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-top: var(--space-sm);
+}
+
+.getstarted-form button:hover:not(:disabled) {
+  background-color: var(--secondary-blue); /* Tối hơn khi hover */
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.getstarted-form button:disabled {
+  /* Hiệu ứng khi đang tải (loading) */
+  background-color: var(--gray-light);
+  color: var(--gray-medium);
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------- */
+/* Link đăng ký (signup-text) */
+/* ---------------------------------------------------- */
+
+.signup-text {
+  margin-top: var(--space-lg);
+  font-size: var(--font-size-sm);
+  color: var(--gray-medium);
+}
+
+.signup-link {
+  color: var(--primary-blue);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  text-decoration: none; /* Không gạch chân mặc định */
+  transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+  color: var(--secondary-blue);
+  text-decoration: underline; /* Gạch chân khi hover */
+}
+
+/* ---------------------------------------------------- */
+/* Responsive - Áp dụng cho các màn hình nhỏ hơn */
+/* ---------------------------------------------------- */
+@media (max-width: 600px) {
+  .getstarted-card {
+    margin: var(--space-md);
+    padding: var(--space-xl);
+    box-shadow: none; /* Loại bỏ bóng đổ trên mobile để tối giản hơn */
+    border: 1px solid var(--gray-light); /* Chỉ giữ lại đường viền nhẹ */
+  }
 }
