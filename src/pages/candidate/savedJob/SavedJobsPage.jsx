@@ -173,7 +173,7 @@ function SavedJobPage() {
 
   return (
     <div className='saved-job-page'>
-      <h1>Công việc đã lưu của tôi</h1>
+      <h1>Saved Jobs</h1>
       
       {/* Sử dụng component JobList */}
       <JobList 

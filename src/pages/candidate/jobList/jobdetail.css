@@ -1,4 +1,28 @@
 /* ==================================== */
+/* 0. CSS Variables for Consistency */
+/* ==================================== */
+:root {
+    /* Primary Colors */
+    --primary-color: #007bff; /* Xanh dương chính */
+    --primary-hover: #0056b3;
+    --saved-color: #28a745; /* Xanh lá cây (đã lưu/applied) */
+
+    /* Background & Surface */
+    --bg-surface: #ffffff;
+    --bg-modal-overlay: rgba(30, 30, 30, 0.7);
+
+    /* Text & Border */
+    --text-color-primary: #1a1a1a;
+    --text-color-secondary: #555;
+    --border-color-light: #f0f0f0;
+    
+    /* Shadows */
+    --shadow-lift: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --shadow-inset: -10px 0 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==================================== */
 /* 1. Modal Structure and Animation */
 /* ==================================== */
 
@@ -8,27 +32,33 @@
     left: 0;
     width: 100%;
     height: 100%;
-    /* Màu nền tối hơn, mờ nhẹ để tạo chiều sâu */
-    background-color: rgba(30, 30, 30, 0.6); 
+    /* Sử dụng biến màu overlay */
+    background-color: var(--bg-modal-overlay); 
     display: flex;
     justify-content: flex-end;
     align-items: center;
     z-index: 1000;
-    /* Dùng transition cho opacity thay vì background-color để mượt hơn */
     transition: opacity 0.3s ease;
+    /* Bắt đầu ẩn/mờ nếu dùng JS để chuyển opacity */
+    opacity: 1; 
 }
 
 .job-modal-content {
-    background-color: #ffffff; /* Trắng tinh khiết */
-    width: 50%; /* Giảm chiều rộng cho cảm giác sang trọng hơn */
+    background-color: var(--bg-surface); /* Trắng */
+    /* Tối ưu responsive: width 90% view, max 800px */
+    width: 90vw;
+    max-width: 800px; 
     height: 100%;
     border-radius: 16px 0 0 16px;
     padding: 30px 40px;
     overflow-y: auto;
-    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.05); /* Shadow nhẹ */
+    box-shadow: var(--shadow-inset); /* Shadow nhẹ từ bên trong */
     transform: translateX(100%);
-    animation: slideIn 0.4s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Animation mượt mà hơn */
+    animation: slideIn 0.4s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
+    /* Dùng flex để dễ dàng căn chỉnh trong tương lai */
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes slideIn {
@@ -36,12 +66,22 @@
     to { transform: translateX(0); }
 }
 
+/* Tối ưu cho Mobile/Tablet: Modal chiếm gần hết màn hình */
+@media (max-width: 768px) {
+    .job-modal-content {
+        max-width: 100%;
+        width: 100%;
+        border-radius: 0; /* Bo tròn chỉ trên desktop */
+    }
+}
+
+
 /* ẨN THANH CUỘN DỌC CỦA MODAL (tối giản) */
 .job-modal-content::-webkit-scrollbar {
     width: 5px;
 }
 .job-modal-content::-webkit-scrollbar-thumb {
-    background-color: #e0e0e0;
+    background-color: #c4c4c4; /* Màu xám đậm hơn một chút */
     border-radius: 10px;
 }
 .job-modal-content::-webkit-scrollbar-track {
@@ -58,13 +98,14 @@
     border: none;
     background: none;
     cursor: pointer;
-    color: #333;
-    opacity: 0.7;
+    color: var(--text-color-primary);
+    opacity: 0.6;
     transition: opacity 0.2s, transform 0.2s;
+    z-index: 10; /* Đảm bảo nút luôn trên cùng */
 }
 .close-btn:hover {
     opacity: 1;
-    transform: rotate(90deg);
+    transform: rotate(90deg) scale(1.1); /* Thêm hiệu ứng phóng to */
 }
 
 /* ==================================== */
@@ -75,49 +116,53 @@
     display: flex;
     gap: 20px;
     align-items: center;
-    border-bottom: 1px solid #f0f0f0; /* Đường kẻ mỏng, nhạt */
+    border-bottom: 1px solid var(--border-color-light); 
     padding-bottom: 20px;
     margin-bottom: 20px;
+    /* Đảm bảo header không bị cuộn */
+    flex-shrink: 0; 
 }
 
 .modal-header img {
-    width: 70px;
-    height: 70px;
+    width: 64px; /* Kích thước cân đối hơn */
+    height: 64px;
     object-fit: contain;
-    border-radius: 12px; /* Góc bo nhẹ */
+    border-radius: 12px;
     border: 1px solid #f9f9f9;
 }
 
 .modal-header h2 {
-    font-size: 24px;
+    font-size: 26px; /* Tăng kích thước tiêu đề chính */
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--text-color-primary);
     margin: 0;
 }
 
 .modal-header p {
     margin: 4px 0 0 0;
     font-size: 15px;
-    color: #555;
+    color: var(--text-color-secondary);
 }
 
 .modal-body {
-    margin-top: 20px;
-    padding-bottom: 80px; /* Tạo khoảng trống cho footer fixed */
+    /* Dùng flex-grow để chiếm hết không gian còn lại và cho phép cuộn */
+    flex-grow: 1; 
+    margin-top: 0;
+    padding-bottom: 100px; /* Tạo khoảng trống lớn hơn cho footer fixed */
 }
 
 .modal-body h3 {
-    margin: 20px 0 8px 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    border-left: 3px solid #007bff; /* Điểm nhấn hiện đại */
-    padding-left: 10px;
+    margin: 25px 0 10px 0; /* Tăng khoảng cách trên */
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text-color-primary);
+    border-left: 4px solid var(--primary-color); /* Điểm nhấn nổi bật hơn */
+    padding-left: 15px;
 }
 
 .modal-body p {
-    margin-bottom: 16px;
-    line-height: 1.6;
+    margin-bottom: 18px;
+    line-height: 1.7;
     color: #444;
     font-size: 15px;
 }
@@ -125,107 +170,113 @@
 .job-decs,
 .job-bnf {
     white-space: pre-wrap;
-    line-height: 1.7;
-    padding: 8px 0;
+    line-height: 1.8;
+    padding: 10px 0;
+    color: #333;
 }
 
 /* ==================================== */
 /* 3. Footer and Buttons (Fixed) */
 /* ==================================== */
 
-/* ==================================== */
-/* 3. Footer and Buttons (Fixed) - Cập nhật tinh tế hơn */
-/* ==================================== */
-
 .modal-footer {
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 45%; 
-    max-width: 800px;
-    background-color: #ffffff;
-    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05); /* Shadow nhẹ hơn */
-    padding: 15px 40px;
+    /* Dùng calc() để width của footer khớp chính xác với width của modal */
+    width: min(90vw, 800px); 
+    /* Dùng flex-end để dịch footer sang bên phải, ngay dưới modal */
+    right: 0;
+    background-color: var(--bg-surface);
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08); 
+    padding: 18px 40px;
     display: flex;
     gap: 15px;
     justify-content: flex-end;
     align-items: center;
     border-radius: 0 0 0 16px;
-    z-index: 1001; /* Đảm bảo footer luôn ở trên cùng */
+    z-index: 1001; 
+}
+
+/* Điều chỉnh lại width của footer trên mobile */
+@media (max-width: 768px) {
+    .modal-footer {
+        width: 100%;
+        padding: 15px 20px;
+        border-radius: 0;
+        justify-content: space-around; /* Căn giữa hoặc trải đều button trên mobile */
+    }
 }
 
 .apply-btn,
 .save-btn {
-    padding: 12px 25px;
+    padding: 12px 28px; /* Tăng padding ngang */
     border-radius: 8px;
     cursor: pointer;
     border: none;
     font-weight: 600;
     font-size: 15px;
-    transition: all 0.3s ease;
-    display: flex; /* Dùng flex để căn icon/text */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transition "springy" hơn */
+    display: flex; 
     align-items: center;
     gap: 8px;
 }
 
 /* --- NÚT APPLY NOW --- */
 .apply-btn {
-    /* Màu xanh chính (Primary) */
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
-    /* Hiệu ứng nổi bật, hiện đại */
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); 
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.35); 
 }
 .apply-btn:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px); /* Hiệu ứng nhấn */
-    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+    background-color: var(--primary-hover);
+    transform: translateY(-3px); /* Hiệu ứng nhấn mạnh hơn */
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.45);
 }
 
-/* --- NÚT SAVE JOB (Trái tim) --- */
+/* --- NÚT SAVE JOB --- */
 .save-btn {
-    /* Mặc định: Tối giản, chỉ có viền */
-    
-    color: #007bff; /* Màu chữ và icon là màu primary */
-    border: 1px solid #007bff;
+    background-color: transparent;
+    color: var(--primary-color); 
+    border: 2px solid var(--primary-color); /* Tăng độ dày viền */
 }
 
 .save-btn:hover:not(.saved) {
-    /* Màu nền rất nhạt khi hover */
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 123, 255, 0.05); /* Nền nhạt */
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* --- TRẠNG THÁI ĐÃ LƯU (SAVED) --- */
 .save-btn.saved {
-    background-color: #28a745; /* Màu xanh lá cây sang trọng khi đã lưu */
-   
-    border-color: #28a745;
-    /* Loại bỏ shadow nhỏ để tạo sự khác biệt */
-    box-shadow: none; 
+    background-color: var(--saved-color);
+    color: white;
+    border-color: var(--saved-color);
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); /* Shadow xanh lá */
 }
 
 .save-btn.saved:hover {
     background-color: #1e7e34;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
+
+
 /* ==================================== */
 /* 4. Other Jobs Carousel (Elegant Scroll) */
 /* ==================================== */
 
 .other-jobs-carousel {
     display: flex;
-    overflow-x: scroll; /* Vẫn giữ cuộn ngang */
-    gap: 20px;
-    padding: 15px 5px; /* Thêm padding để tạo khoảng trống khi cuộn */
-    margin: 0 -5px; /* Dịch sang trái/phải để offset padding */
+    overflow-x: scroll;
+    gap: 15px; /* Giảm gap một chút */
+    padding: 15px 0;
+    margin: 0 -5px;
     scroll-behavior: smooth;
     
     /* ẨN THANH CUỘN NGANG */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
-/* Webkit (Chrome, Safari) */
 .other-jobs-carousel::-webkit-scrollbar {
     display: none; 
 }
@@ -234,29 +285,29 @@
 .carousel-card {
     display: flex;
     align-items: center;
-    min-width: 280px; /* Tăng kích thước card */
+    min-width: 300px; /* Tăng kích thước card */
     flex-shrink: 0;
-    background: #ffffff;
-    border: 1px solid #eee; /* Đường viền mỏng */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Shadow nhẹ nhàng */
-    border-radius: 12px;
-    padding: 15px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color-light);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04); /* Shadow nhẹ nhàng */
+    border-radius: 16px; /* Bo tròn mạnh hơn */
+    padding: 18px;
     cursor: pointer;
-    transition: all 0.1s ease;
+    transition: all 0.2s ease;
 }
 
 .carousel-card:hover {
-    transform: translateY(-5px); /* Hiệu ứng "nhấc lên" */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-6px); 
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12); /* Hiệu ứng "nhấc lên" rõ rệt hơn */
 }
 
 .carousel-logo {
-    width: 50px; /* Tăng kích thước logo */
-    height: 50px;
-    border-radius: 8px; /* Dùng góc vuông bo thay vì bo tròn */
+    width: 45px; 
+    height: 45px;
+    border-radius: 10px; 
     object-fit: contain;
     margin-right: 15px;
-    border: 1px solid #f9f9f9;
+    border: 1px solid #f0f0f0;
 }
 
 .carousel-info {
@@ -264,11 +315,10 @@
 }
 
 .carousel-info h4 {
-    font-size: 15px;
+    font-size: 16px; /* Tăng kích thước tiêu đề */
     font-weight: 600;
     margin-bottom: 4px;
-    color: #1a1a1a;
-    /* Đảm bảo text không bị tràn */
+    color: var(--text-color-primary);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -277,5 +327,144 @@
 .carousel-info p {
     font-size: 13px;
     margin: 2px 0;
-    color: #666;
+    color: var(--text-color-secondary);
+}
+
+/* ==================================== */
+/* 5. Apply Modal */
+/* ==================================== */
+
+.apply-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Lớp phủ mờ hơn */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; 
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.apply-modal-content {
+    background: var(--bg-surface);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 550px; 
+    box-shadow: var(--shadow-lift);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.apply-modal-content .modal-header {
+    border-bottom: none;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.apply-modal-content .modal-header h2 {
+    font-size: 1.8rem; /* Tăng kích thước */
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.apply-modal-content .modal-body {
+    padding: 10px 0;
+    padding-bottom: 20px; /* Loại bỏ padding lớn ở dưới */
+}
+
+.apply-modal-content .modal-footer {
+    position: static; /* Bỏ fixed trong apply modal */
+    bottom: auto;
+    right: auto;
+    width: auto;
+    max-width: none;
+    background: none;
+    box-shadow: none;
+    padding: 20px 0 0;
+    justify-content: flex-end; /* Chỉ cần flex-end vì đã có nút Close */
+    gap: 10px;
+    border-radius: 0;
+}
+
+/* --- Form Elements --- */
+.apply-modal-content label {
+    display: block;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    color: var(--text-color-primary);
+    font-size: 15px;
+}
+
+.apply-modal-content textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Bo góc mạnh hơn */
+    resize: vertical;
+    font-size: 15px;
+    min-height: 120px;
+    transition: border-color 0.2s;
+}
+.apply-modal-content textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* --- CV Status Box --- */
+.cv-status-box {
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.cv-status-box p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.cv-ready {
+    background-color: #e6f7ea; /* Green light */
+    border: 1px solid var(--saved-color);
+    color: var(--saved-color);
+}
+
+.cv-missing {
+    background-color: #fff8e1; /* Yellow light (tinh tế hơn) */
+    border: 1px solid #ffb300;
+    color: #b38800;
+}
+
+.cv-ready svg {
+    color: var(--saved-color);
+    font-size: 1.2rem;
+}
+
+.cv-missing svg {
+    color: #ffb300;
+    font-size: 1.2rem;
+}
+
+/* Cập nhật button Apply khi đã nộp đơn */
+.apply-btn.applied {
+    background-color: var(--saved-color);
+    cursor: default;
+    color: white;
+    box-shadow: none;
+    transform: none;
+}
+.apply-btn.applied:hover {
+    background-color: var(--saved-color);
 }

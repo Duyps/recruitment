@@ -1,3 +1,110 @@
-.saved-job-page{
+/* savedJobs.css */
+
+:root {
+  --primary-color: #0a66c2; /* Xanh chủ đạo */
+  --accent-color: #dc3545; /* Đỏ: Dùng cho thông báo lỗi/xóa */
+  --text-color: #1f2937; /* Đen đậm */
+  --text-light: #4b5563; /* Xám trung tính */
+  --bg-main: #f4f5f7; /* Nền trang */
+  --bg-card: #ffffff;
+  --border-color: #e5e7eb;
+  --shadow-base: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Khung Tổng Thể và Nội dung chính --- */
+.saved-job-page {
+  max-width: 1100px;
+  margin: 0 auto;
   margin-top: 70px;
+  padding: 40px 20px;
+  font-family: 'Inter', sans-serif, Arial;
+  background-color: var(--bg-main);
+  min-height: calc(100vh - 80px); /* Đảm bảo chiều cao tối thiểu */
+}
+
+/* --- Tiêu đề Trang --- */
+.saved-job-page h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 30px;
+  border-bottom: 3px solid var(--primary-color); /* Đường kẻ chân tiêu đề nổi bật */
+  padding-bottom: 10px;
+}
+
+/* --- Trạng thái (Loading, Error, No Jobs) --- */
+.saved-job-page p {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.saved-job-page > p {
+    /* Áp dụng cho các thông báo loading, error, không có job */
+    text-align: center;
+    padding: 50px 20px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    box-shadow: var(--shadow-base);
+    margin-top: 20px;
+}
+
+.error-message {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.saved-job-page p:nth-child(3) {
+    /* Thông báo thứ hai trong trạng thái không có job */
+    font-style: italic;
+    color: var(--text-light);
+    margin-top: 10px;
+    padding-top: 0;
+    box-shadow: none;
+    background: none;
+}
+
+/* --- Component JobList (Tùy chỉnh để phù hợp với trang này) --- */
+/* Giả định JobList hiển thị một lưới/danh sách các job card. */
+
+.job-list-container {
+    /* Nếu bạn có một container bao bọc JobList, hãy sử dụng nó */
+    /* Nếu không, các card bên trong JobList cần được định dạng lại */
+    padding: 0; /* Loại bỏ padding thừa nếu JobList có padding */
+    margin: 0;
+}
+
+/* Nếu bạn muốn tạo một khối rõ ràng cho danh sách jobs */
+/* .saved-jobs-list-wrapper {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-base);
+} */
+
+/* --- Tùy chỉnh Job Card bên trong JobList (Giả định) --- */
+/* Nếu JobList của bạn sử dụng class 'job-card' (như các ví dụ trước) */
+.job-card {
+    /* Đảm bảo Job Card trong trang Saved Job vẫn hiện đại */
+    transition: border-left 0.2s ease;
+    border-left: 5px solid transparent; /* Viền mờ mặc định */
+}
+
+.job-card:hover {
+    border-left: 5px solid var(--primary-color); /* Đổi màu khi hover */
+}
+
+
+/* --- JobDetailModal (Không cần CSS ở đây, vì nó là một component riêng) --- */
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .saved-job-page {
+    padding: 20px 10px;
+  }
+  
+  .saved-job-page h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
 }
