@@ -52,7 +52,6 @@ export default function SearchBar({ onSearch }) {
         <button type="submit">Find Job</button>
       </form>
 
-      {/* Danh sách gợi ý */}
       {showSuggestions && suggestions.length > 0 && (
         <ul className="suggestion-list">
           {suggestions.map((s, i) => (
@@ -66,3 +65,5 @@ export default function SearchBar({ onSearch }) {
     </div>
   );
 }
+
+

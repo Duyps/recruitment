@@ -1,0 +1,244 @@
+/* companyInfo.css */
+
+:root {
+  --primary-color: #0a66c2; /* Màu Xanh chủ đạo (LinkedIn Style) */
+  --accent-color: #fca311; /* Màu Vàng cam (Điểm nhấn) */
+  --text-color: #1f2937; /* Đen đậm */
+  --text-light: #4b5563; /* Xám trung tính */
+  --bg-main: #f3f4f6; /* Nền trang */
+  --bg-card: #ffffff;
+  --border-color: #e5e7eb;
+  --shadow-base: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Khung Tổng Thể và Loading --- */
+.company-public-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  font-family: 'Inter', sans-serif, Arial;
+  background-color: var(--bg-main);
+  min-height: 100vh;
+}
+
+.company-loading {
+  text-align: center;
+  padding: 80px 0;
+  font-size: 1.5rem;
+  color: var(--text-light);
+}
+
+/* ------------------------------------- */
+/* --- 1. HEADER (HERO) --- */
+/* ------------------------------------- */
+.company-header-hero {
+  /* Giả lập Banner - có thể dùng background-image */
+  background: linear-gradient(135deg, #14213d, #0f4c75);
+  height: 200px;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 80px; /* Tạo không gian cho card profile nổi */
+  position: relative;
+}
+
+.company-profile-card {
+  position: absolute;
+  top: 150px; /* Đẩy xuống dưới banner */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  width: 95%; /* Chiếm phần lớn chiều rộng */
+  max-width: 1000px;
+  background: var(--bg-card);
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-hover);
+  
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.company-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: var(--bg-card);
+  padding: 5px;
+  border: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.company-info-block {
+  flex-grow: 1;
+}
+
+.company-name {
+  font-size: 2.2rem;
+  margin: 0 0 5px;
+  color: var(--text-color);
+}
+
+.company-industry {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+.company-quick-meta {
+  display: flex;
+  gap: 20px;
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+/* ------------------------------------- */
+/* --- 2. BODY (LAYOUT 2 CỘT) --- */
+/* ------------------------------------- */
+.company-body-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Layout: Sidebar (1) | Jobs (2) */
+  gap: 30px;
+}
+
+.company-sidebar > section,
+.company-jobs-section {
+  background: var(--bg-card);
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-base);
+  margin-bottom: 20px; /* Khoảng cách giữa các section trong sidebar */
+}
+
+/* Tiêu đề Section */
+.company-sidebar h2,
+.company-jobs-section h2 {
+  font-size: 1.4rem;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* A. Key Details */
+.company-key-details {
+  /* Tông màu nền nhẹ khác biệt cho Key Details */
+  background-color: var(--bg-main); 
+  border: 1px solid var(--border-color);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 cột cho thông tin chi tiết */
+  gap: 10px 20px;
+  font-size: 0.95rem;
+}
+
+.details-grid strong {
+  color: var(--text-color);
+}
+
+.details-grid a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+.details-grid a:hover { text-decoration: underline; }
+
+
+/* B. About Section */
+.company-about p {
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+/* C. Jobs Section */
+.no-jobs-text {
+  text-align: center;
+  padding: 40px;
+  font-style: italic;
+  color: var(--text-light);
+}
+
+.company-jobs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.company-job-card {
+  padding: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  background: var(--bg-card);
+}
+
+.company-job-card:hover {
+  box-shadow: var(--shadow-hover);
+  border-left: 5px solid var(--primary-color); /* Điểm nhấn nổi bật khi hover */
+  transform: translateY(-2px);
+}
+
+.company-job-card h3 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+  color: var(--primary-color);
+}
+
+.job-meta {
+  display: flex;
+  gap: 15px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0 0 10px;
+}
+
+.job-category {
+  display: inline-block;
+  background-color: #e0f2fe;
+  color: var(--primary-color);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+  /* Chuyển sang 1 cột trên tablet/mobile */
+  .company-body-content {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
+  
+  .company-sidebar {
+    order: 2; /* Đẩy sidebar xuống dưới job list trên mobile (tùy chọn) */
+  }
+  
+  .company-jobs-section {
+    order: 1; /* Jobs lên đầu */
+  }
+  
+  .company-profile-card {
+    top: 170px;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .company-header-hero {
+    margin-bottom: 120px; /* Tăng khoảng cách cho card profile mobile */
+  }
+  
+  .company-quick-meta {
+    justify-content: center;
+  }
+  
+  .details-grid {
+    grid-template-columns: 1fr; /* 1 cột cho thông tin chi tiết trên mobile */
+  }
+}

@@ -57,6 +57,8 @@ export default function CanHomePage() {
   return (
     <div className="can-home-page">
       <SearchBar onSearch={handleSearch} />
+      
+
 
       {!searching && jobs.length === 0 ? (
         <div className="banner">

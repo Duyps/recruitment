@@ -55,7 +55,7 @@ export default function CandidateHeader() {
           Logo Ở đây
         </p>
         <button onClick={() => navigate("/candidate/home")}>Home</button>
-        <button onClick={() => navigate("/candidate/company-review")}>
+        <button onClick={() => navigate("/candidate/home/review")}>
           Company Review
         </button>
       </div>

@@ -16,6 +16,8 @@ import ManageJob from "./pages/company/manageJob/ManageJob";
 import SavedJobsPage from "./pages/candidate/savedJob/SavedJobsPage";
 import CandidateLayout from "./pages/candidate/CandidateLayout";
 import CandidateAccount from "./pages/candidate/profile/CandidateProfile";
+import CompanyReview from "./pages/candidate/companyReview/CompanyReview";
+import CompanyPublicInfo from "./pages/candidate/companyReview/CompanyPublicInfo";
 export default function App() {
   return (
     <Router>
@@ -27,6 +29,9 @@ export default function App() {
           <Route index element={<CandidateHome />} /> {/* /candidate/home */}
           <Route path="saved-jobs" element={<SavedJobsPage />} /> {/* /candidate/home/saved-jobs */}
           <Route path="account" element={<CandidateAccount />} /> {/* /candidate/home/saved-jobs */}
+          <Route path="review" element={<CompanyReview/>} /> {/* /candidate/home/saved-jobs */}
+          <Route path="review/:companyId" element={<CompanyPublicInfo />} />
+
         </Route>
         <Route path="/candidate/login" element={<CandidateLogin />} />
         <Route path="/candidate/register" element={<CandidateRegister />} />
