@@ -8,7 +8,6 @@ import CompanyHome from "./pages/company/CompanyHome";
 import CompanyLogin from "./pages/company/CompanyLogin";
 import CompanyRegister from "./pages/company/CompanyRegister";
 import CompanySetup from "./pages/company/CompanySetup";
-import CompanyPlan from "./pages/company/CompanyPlan";
 import GetStarted from "./pages/GetStarted";
 import LandingPage from "./pages/landingPage/Landing";
 import JobDetail from "./pages/company/jobDetail/JobDetail";
@@ -51,7 +50,6 @@ export default function App() {
         <Route path="/company/login" element={<CompanyLogin />} />
         <Route path="/company/register" element={<CompanyRegister />} />
         <Route path="/company/setup" element={<CompanySetup />} />
-        <Route path="/company/plan" element={<CompanyPlan />} />
         
 
         {/* Default */}

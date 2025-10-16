@@ -2,7 +2,7 @@ import { useState } from "react";
 import { auth, db } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import '../../components/collectInfo/form.css';
+import './company.css';
 
 export default function CompanySetup() {
   const [step, setStep] = useState(1);

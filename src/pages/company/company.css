@@ -343,3 +343,175 @@
     font-size: 1.7rem;
   }
 }
+
+
+
+/*trang set up
+/* =================================== */
+/* File: form.css                      */
+/* Styling cho Form Setup nhiều bước (Công ty) */
+/* =================================== */
+
+.form-wrapper {
+    margin: var(--space-xxl) auto; /* 48px auto */
+    padding: var(--space-xl); /* 32px */
+    background-color: var(--white);
+    border-radius: var(--border-radius-lg); /* 12px */
+    box-shadow: var(--box-shadow-heavy);
+    width: 100%;
+    /* Max-width được đặt inline trong component */
+}
+
+/* --- 1. Thanh tiến trình (Progress Bar) --- */
+
+.progress-bar {
+    height: 10px;
+    background-color: var(--gray-light);
+    border-radius: 5px;
+    margin-bottom: var(--space-xl);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary-blue);
+    transition: width 0.4s ease-in-out;
+    border-radius: 5px;
+}
+
+/* --- 2. Tiêu đề bước --- */
+
+.form-wrapper h3 {
+    font-size: var(--heading-3); /* 24px */
+    font-weight: var(--font-weight-bold);
+    color: var(--gray-dark);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--light-blue);
+}
+
+/* --- 3. Input và Textarea --- */
+
+.form-wrapper input,
+.form-wrapper textarea {
+    width: 100%;
+    padding: var(--space-md); /* 16px */
+    margin-bottom: var(--space-md);
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius-md); /* 10px */
+    font-size: var(--font-size-base);
+    color: var(--gray-dark);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+    background-color: var(--off-white);
+}
+
+.form-wrapper input:focus,
+.form-wrapper textarea:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px var(--light-blue);
+    background-color: var(--white);
+}
+
+.form-wrapper textarea {
+    resize: vertical;
+}
+
+/* --- 4. Hàng nút điều hướng --- */
+
+.btn-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-xl);
+    gap: var(--space-lg);
+}
+
+/* Nút chính (Next/Save) */
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: var(--space-md) var(--space-lg);
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    flex-grow: 1;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-blue);
+}
+
+.btn-primary:active {
+    transform: scale(0.99);
+}
+
+/* Nút phụ (Back) */
+.btn-secondary {
+    background-color: var(--gray-light);
+    color: var(--gray-dark);
+    padding: var(--space-md) var(--space-lg);
+    border: 1px solid var(--gray-medium);
+    border-radius: var(--border-radius-md);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-grow: 1;
+    max-width: 150px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--gray-medium);
+    color: var(--white);
+}
+
+/* --- 5. Review Step (Step 4) --- */
+
+.review-box {
+    padding: var(--space-xl);
+    background-color: var(--light-blue);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--space-xl);
+    border-left: 5px solid var(--primary-blue);
+}
+
+.review-box p {
+    margin-bottom: var(--space-sm);
+    font-size: var(--font-size-base);
+    color: var(--gray-dark);
+    line-height: 1.5;
+}
+
+.review-box strong {
+    color: var(--primary-blue);
+    font-weight: var(--font-weight-bold);
+    text-transform: capitalize;
+}
+
+/* --- 6. Step Indicator --- */
+
+.step-text {
+    text-align: center;
+    margin-top: var(--space-xl);
+    font-size: var(--font-size-sm);
+    color: var(--gray-medium);
+    font-weight: var(--font-weight-medium);
+}
+
+/* --- 7. Responsive --- */
+
+@media (max-width: 600px) {
+    .form-wrapper {
+        padding: var(--space-md);
+    }
+
+    .btn-row {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .btn-primary, .btn-secondary {
+        max-width: 100%;
+    }
+}

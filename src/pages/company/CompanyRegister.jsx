@@ -59,7 +59,7 @@ export default function CompanyRegister() {
       });
 
       alert("Company account created successfully!");
-      navigate("/company/plan");
+      navigate("/company/setup");
     } catch (error) {
       console.error("Registration failed:", error);
       alert(error.message);
